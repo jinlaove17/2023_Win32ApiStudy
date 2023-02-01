@@ -1,7 +1,8 @@
 ﻿// main.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 
-#include "framework.h"
+#include "pch.h"
 #include "main.h"
+#include "Core.h"
 
 #include <vector>
 
@@ -11,6 +12,7 @@ using namespace std;
 
 // 전역 변수:
 HINSTANCE hInst;                     // 현재 인스턴스입니다.
+HWND hWnd;                           // 메인 윈도우 핸들입니다.
 WCHAR szTitle[MAX_LOADSTRING];       // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING]; // 기본 창 클래스 이름입니다.
 
@@ -38,6 +40,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,         // 현재 실행 된 프
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance(hInstance, nCmdShow))
     {
+        return FALSE;
+    }
+
+    // Core 초기화
+    if (FAILED(CCore::GetInstance()->Init(hWnd, SIZE{ 1280, 768 })))
+    {
+        MessageBox(nullptr, L"Core 객체 초기화 실패", L"ERROR", MB_OK);
+
         return FALSE;
     }
 
@@ -69,9 +79,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,         // 현재 실행 된 프
                 DispatchMessage(&msg);
             }
         }
-        else
+        else // 메세지가 없는 경우 호출
         {
-            // 메세지가 없는 경우 호출
+            CCore::GetInstance()->AdvanceFrame();
         }
     }
 
@@ -119,7 +129,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     // 인스턴스 핸들을 전역 변수에 저장합니다.
     hInst = hInstance;
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    // 메인 윈도우 핸들을 전역 변수에 저장합니다.
+    hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
     {
@@ -134,20 +145,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 
 
-struct OBJECT
-{
-    POINT m_position;
-    SIZE  m_size;
-};
-
-struct MOUSE_INFO
-{
-    bool  m_isPressed;
-
-    POINT m_oldPosition;
-    POINT m_newPosition;
-};
-
 //
 //  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -160,9 +157,6 @@ struct MOUSE_INFO
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static vector<OBJECT> objects;
-    static MOUSE_INFO mouseInfo = {};
-
     switch (message)
     {
     case WM_COMMAND:
@@ -194,91 +188,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // - DC 기본 브러쉬의 색상은 white
 
             // DC를 만든 후 ID 값을 반환한다.
+            // BeginPaint 함수는 EndPaint 함수와 짝은 이루어 호출해주어야 한다.
+            // 그러나, 메시지 처리 방식의 렌더링은 효율성이 떨어지므로, 렌더링 코드는 WM_PAINT 내에 작성하지 않을 것이다.
             HDC hdc = BeginPaint(hWnd, &ps);
 
-            // 직접 펜과 브러쉬를 만들어서 DC에 설정해보자.
-            // 자주 쓰는 색상의 펜과 브러쉬는 GetStockObject() 함수를 이용할 수 있다.
-            HPEN hPen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-            HBRUSH hBrush = CreateSolidBrush(RGB(0, 255, 0));
+            //Rectangle(hdc, 1180, 668, 1280, 768);
 
-            // 만든 펜과 브러쉬로 설정하고, 기존에 사용하던 펜과 브러쉬를 리턴 받아 저장해 놓는다.
-            HPEN hDefaultPen = (HPEN)SelectObject(hdc, hPen);
-            HBRUSH hDefaultBrush = (HBRUSH)SelectObject(hdc, hBrush);
-
-            if (mouseInfo.m_isPressed)
-            {
-                Rectangle(hdc, mouseInfo.m_oldPosition.x, mouseInfo.m_oldPosition.y, mouseInfo.m_newPosition.x, mouseInfo.m_newPosition.y);
-            }
-
-            for (const auto& object : objects)
-            {
-                Rectangle(hdc, object.m_position.x - object.m_size.cx / 2, object.m_position.y - object.m_size.cy / 2, object.m_position.x + object.m_size.cx / 2, object.m_position.y + object.m_size.cy / 2);
-            }
-
-            // DC의 펜과 브러쉬를 원래대로 되돌린다.
-            SelectObject(hdc, hDefaultPen);
-            SelectObject(hdc, hDefaultBrush);
-
-            // 다 쓴 펜과 브러쉬를 삭제한다.
-            DeleteObject(hPen);
-            DeleteObject(hBrush);
-
-            // 그리기를 종료한다.
+            // 그리기를 종료한다.(더이상 무효화 영역이 없음을 알린다.)
             EndPaint(hWnd, &ps);
         }
         break;
-    case WM_KEYDOWN:
-    {
-        // 눌린 키보드 값에 대한 단서는 wParam에 저장되어 있다.
-        switch (wParam)
-        {
-        case VK_UP:
-            break;
-        case VK_DOWN:
-            break;
-        case VK_LEFT:
-            break;
-        case VK_RIGHT:
-            break;
-        }
-
-        // 강제로 무효화 영역을 발생시킨다.
-        InvalidateRect(hWnd, nullptr, true);
-    }
-        break;
-    case WM_LBUTTONDOWN:
-    {
-        mouseInfo.m_isPressed = true;
-
-        // 눌린 마우스 값에 대한 단서는 lParam에 저장되어 있다.
-        mouseInfo.m_oldPosition.x = LOWORD(lParam);
-        mouseInfo.m_oldPosition.y = HIWORD(lParam);
-    }
-        break;
-    case WM_MOUSEMOVE:
-    {
-        mouseInfo.m_newPosition.x = LOWORD(lParam);
-        mouseInfo.m_newPosition.y = HIWORD(lParam);
-
-        InvalidateRect(hWnd, nullptr, true);
-    }
-        break;
-    case WM_LBUTTONUP:
-    {
-        OBJECT object = {};
-
-        object.m_position.x = (mouseInfo.m_oldPosition.x + mouseInfo.m_newPosition.x) / 2;
-        object.m_position.y = (mouseInfo.m_oldPosition.y + mouseInfo.m_newPosition.y) / 2;
-        object.m_size.cx = abs(mouseInfo.m_oldPosition.x - mouseInfo.m_newPosition.x);
-        object.m_size.cy = abs(mouseInfo.m_oldPosition.y - mouseInfo.m_newPosition.y);
-
-        objects.push_back(object);
-
-        mouseInfo.m_isPressed = false;
-
-        InvalidateRect(hWnd, nullptr, true);
-    }
-    break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

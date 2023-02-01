@@ -13,11 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\01. Core">
+      <UniqueIdentifier>{7fc035d5-b33b-4854-99f5-2f0594a786ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\01. Core">
+      <UniqueIdentifier>{f939588d-3cc1-4561-aecd-5d5616995f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Manager">
+      <UniqueIdentifier>{8396d9f3-cdd4-4639-b6be-7ac0e0dbfd49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\02. Manager">
+      <UniqueIdentifier>{1d807918-806c-4504-95d4-3b7c71c327ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03. Object">
+      <UniqueIdentifier>{a698652e-0f19-4581-90df-4712d64ae6d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\03. Object">
+      <UniqueIdentifier>{e2c363ef-630e-405b-ae28-dc992f97ac0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -27,10 +42,28 @@
     <ClInclude Include="main.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>헤더 파일\01. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>헤더 파일\03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>소스 파일\01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\03. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
