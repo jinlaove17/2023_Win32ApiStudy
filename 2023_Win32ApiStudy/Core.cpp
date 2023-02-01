@@ -2,6 +2,7 @@
 #include "Core.h"
 
 #include "TimeManager.h"
+#include "InputManager.h"
 
 #include "Object.h"
 
@@ -50,6 +51,7 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 
 	// 매니저 초기화
 	CTimeManager::GetInstance()->Init();
+	CInputManager::GetInstance()->Init();
 
 	object.SetPosition(Vec2(m_resolution.cx / 2, m_resolution.cy / 2));
 	object.SetScale(Vec2(100, 100));
@@ -66,6 +68,7 @@ void CCore::AdvanceFrame()
 {
 	// 매니저 업데이트
 	CTimeManager::GetInstance()->Update();
+	CInputManager::GetInstance()->Update();
 
 	Update();
 	Render();
@@ -75,22 +78,22 @@ void CCore::Update()
 {
 	Vec2 position = object.GetPosition();
 
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	if (CInputManager::GetInstance()->GetKeyState(KEY::UP) == KEY_STATE::HOLD)
 	{
 		position.m_y -= 300.0f * DT;
 	}
 
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	if (CInputManager::GetInstance()->GetKeyState(KEY::DOWN) == KEY_STATE::HOLD)
 	{
 		position.m_y += 300.0f * DT;
 	}
 
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	if (CInputManager::GetInstance()->GetKeyState(KEY::LEFT) == KEY_STATE::HOLD)
 	{
 		position.m_x -= 300.0f * DT;
 	}
 
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	if (CInputManager::GetInstance()->GetKeyState(KEY::RIGHT) == KEY_STATE::HOLD)
 	{
 		position.m_x += 300.0f * DT;
 	}
