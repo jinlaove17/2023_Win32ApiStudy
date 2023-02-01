@@ -5,9 +5,14 @@
 // 아래 식의 결과 값은 500이 아닌 230이다.
 // int n = 10 * ADD(20, 30);
 
-#define SINGLETON(type) public:\
+#define SINGLETON(type) private:\
+							type();\
+							~type();\
+						public:\
 							static type* GetInstance()\
 							{\
 								 static type instance;\
 								 return &instance;\
 							}
+
+#define DT CTimeManager::GetInstance()->GetDeltaTime()

@@ -16,20 +16,18 @@ class CCore
 
 private:
 	// 메인 윈도우 핸들
-	HWND m_hWnd;
+	HWND    m_hWnd;
 
 	// 메인 윈도우 해상도
-	SIZE m_resolution;
+	SIZE    m_resolution;
 
 	// 메인 윈도우의 디바이스 컨택스트
-	HDC m_hDC;
+	HDC     m_hDC;
 	
-private:
-	CCore();
-	~CCore();
-
 public:
 	int Init(HWND hWnd, const SIZE& resolution);
+
+	HWND GetHwnd();
 
 	void AdvanceFrame();
 

@@ -18,3 +18,4 @@
 #include <tchar.h>
 
 #include "define.h"
+#include "struct.h"
