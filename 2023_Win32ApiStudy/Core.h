@@ -23,6 +23,9 @@ private:
 
 	// 메인 윈도우의 디바이스 컨택스트
 	HDC     m_hDC;
+
+	HBITMAP m_hBitmap;
+	HDC		m_hMemDC;
 	
 public:
 	int Init(HWND hWnd, const SIZE& resolution);
