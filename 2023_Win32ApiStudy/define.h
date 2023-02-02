@@ -16,3 +16,21 @@
 							}
 
 #define DT CTimeManager::GetInstance()->GetDeltaTime()
+
+enum class SCENE_TYPE
+{
+	TITLE,
+	STAGE1,
+	STAGE2,
+
+	COUNT
+};
+
+enum class GROUP_TYPE
+{
+	DEFAULT,
+	PLAYER,
+	MONSTER,
+
+	COUNT
+};

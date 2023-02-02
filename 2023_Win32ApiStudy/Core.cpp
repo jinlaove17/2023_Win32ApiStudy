@@ -3,6 +3,7 @@
 
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 
 #include "Object.h"
 
@@ -52,6 +53,7 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 	// 매니저 초기화
 	CTimeManager::GetInstance()->Init();
 	CInputManager::GetInstance()->Init();
+	CSceneManager::GetInstance()->Init();
 
 	object.SetPosition(Vec2(m_resolution.cx / 2, m_resolution.cy / 2));
 	object.SetScale(Vec2(100, 100));
@@ -69,51 +71,12 @@ void CCore::AdvanceFrame()
 	// 매니저 업데이트
 	CTimeManager::GetInstance()->Update();
 	CInputManager::GetInstance()->Update();
+	CSceneManager::GetInstance()->Update();
 
-	Update();
-	Render();
-}
-
-void CCore::Update()
-{
-	Vec2 position = object.GetPosition();
-
-	if (CInputManager::GetInstance()->GetKeyState(KEY::UP) == KEY_STATE::HOLD)
-	{
-		position.m_y -= 300.0f * DT;
-	}
-
-	if (CInputManager::GetInstance()->GetKeyState(KEY::DOWN) == KEY_STATE::HOLD)
-	{
-		position.m_y += 300.0f * DT;
-	}
-
-	if (CInputManager::GetInstance()->GetKeyState(KEY::LEFT) == KEY_STATE::HOLD)
-	{
-		position.m_x -= 300.0f * DT;
-	}
-
-	if (CInputManager::GetInstance()->GetKeyState(KEY::RIGHT) == KEY_STATE::HOLD)
-	{
-		position.m_x += 300.0f * DT;
-	}
-
-	object.SetPosition(position);
-}
-
-void CCore::Render()
-{
 	// 화면 클리어
 	Rectangle(m_hMemDC, -1, -1, m_resolution.cx + 1, m_resolution.cy + 1);
 
-	const Vec2& position = object.GetPosition();
-	const Vec2& scale = object.GetScale();
-
-	Rectangle(m_hMemDC,
-		(int)(position.m_x - scale.m_x / 2.0f),
-		(int)(position.m_y - scale.m_y / 2.0f),
-		(int)(position.m_x + scale.m_x / 2.0f),
-		(int)(position.m_y + scale.m_y / 2.0f));
+	CSceneManager::GetInstance()->Render(m_hMemDC);
 
 	// m_hMemDC에 그려진 내용을 m_hDC로 복사한다.
 	BitBlt(m_hDC, 0, 0, m_resolution.cx, m_resolution.cy, m_hMemDC, 0, 0, SRCCOPY);

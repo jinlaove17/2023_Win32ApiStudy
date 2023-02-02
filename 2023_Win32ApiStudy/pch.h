@@ -17,5 +17,11 @@
 #include <memory.h>
 #include <tchar.h>
 
+// C++ 헤더 파일
+#include <string>
+#include <vector>
+
+using namespace std;
+
 #include "define.h"
 #include "struct.h"

@@ -31,6 +31,12 @@
     <Filter Include="헤더 파일\03. Object">
       <UniqueIdentifier>{e2c363ef-630e-405b-ae28-dc992f97ac0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\04. Scene">
+      <UniqueIdentifier>{60d90c29-c038-4fcc-8018-7035756eafa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\04. Scene">
+      <UniqueIdentifier>{12509612-baa1-4158-a27e-2321337b6088}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -60,6 +66,18 @@
     <ClInclude Include="TimeManager.h">
       <Filter>헤더 파일\02. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>헤더 파일\02. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>헤더 파일\02. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>헤더 파일\04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>헤더 파일\04. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,6 +91,18 @@
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>소스 파일\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>소스 파일\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>소스 파일\04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\04. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

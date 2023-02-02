@@ -33,8 +33,4 @@ public:
 	HWND GetHwnd();
 
 	void AdvanceFrame();
-
-private:
-	void Update();
-	void Render();
 };
