@@ -22,6 +22,8 @@
 #define KEY_HOLD(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::HOLD
 #define KEY_AWAY(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::AWAY
 
+#define PI 3.1415926535f
+
 enum class SCENE_TYPE
 {
 	TITLE,

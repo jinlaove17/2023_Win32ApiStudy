@@ -57,7 +57,7 @@ void CPlayer::CreateMissile()
 	missilePosition.m_y -= 0.5f * GetScale().m_y;
 	missile->SetPosition(missilePosition);
 	missile->SetScale(Vec2(20.0f, 20.0f));
-	missile->SetDirection(-1.0f);
+	missile->SetDirection(Vec2(0.0f, -1.0f));
 
 	CScene* currentScene = CSceneManager::GetInstance()->GetCurrentScene();
 

@@ -4,7 +4,7 @@
 #include "TimeManager.h"
 
 CMissile::CMissile() :
-	m_direction(1.0f)
+	m_direction()
 {
 }
 
@@ -12,7 +12,7 @@ CMissile::~CMissile()
 {
 }
 
-void CMissile::SetDirection(float direction)
+void CMissile::SetDirection(const Vec2& direction)
 {
 	m_direction = direction;
 }
@@ -26,7 +26,8 @@ void CMissile::Update()
 {
 	Vec2 position = GetPosition();
 
-	position.m_y += m_direction * 400.0f * DT;
+	position.m_x += m_direction.m_x * 500.0f * DT;
+	position.m_y += m_direction.m_y * 500.0f * DT;
 
 	SetPosition(position);
 }

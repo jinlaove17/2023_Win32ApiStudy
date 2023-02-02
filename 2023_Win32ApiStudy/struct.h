@@ -44,4 +44,21 @@ public:
 
 		return *this;
 	}
+
+	float Length()
+	{
+		return sqrtf(m_x * m_x + m_y * m_y);
+	}
+
+	Vec2& Normalize()
+	{
+		float length = Length();
+
+		assert(length != 0.0f);
+
+		m_x /= length;
+		m_y /= length;
+
+		return *this;
+	}
 };

@@ -4,13 +4,13 @@
 class CMissile : public CObject
 {
 private:
-	float m_direction;
+	Vec2 m_direction;
 
 public:
 	CMissile();
 	virtual ~CMissile();
 
-	void SetDirection(float direction);
+	void SetDirection(const Vec2& direction);
 	float GetDirection();
 
 	virtual void Update();
