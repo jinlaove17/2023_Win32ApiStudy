@@ -17,6 +17,11 @@
 
 #define DT CTimeManager::GetInstance()->GetDeltaTime()
 
+#define KEY_NONE(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::NONE
+#define KEY_TAP(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::TAP
+#define KEY_HOLD(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::HOLD
+#define KEY_AWAY(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::AWAY
+
 enum class SCENE_TYPE
 {
 	TITLE,

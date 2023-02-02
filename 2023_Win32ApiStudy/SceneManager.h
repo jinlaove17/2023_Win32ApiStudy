@@ -13,6 +13,8 @@ private:
 public:
 	void Init();
 
+	CScene* GetCurrentScene();
+
 	void Update();
 	void Render(HDC hDC);
 };

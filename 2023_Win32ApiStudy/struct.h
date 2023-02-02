@@ -30,4 +30,18 @@ public:
 		m_y((float)y)
 	{
 	}
+
+	Vec2(const SIZE& size) :
+		m_x((float)size.cx),
+		m_y((float)size.cy)
+	{
+	}
+
+	Vec2& operator =(const SIZE& size)
+	{
+		m_x = (float)size.cx;
+		m_y = (float)size.cy;
+
+		return *this;
+	}
 };

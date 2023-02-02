@@ -7,8 +7,6 @@
 
 #include "Object.h"
 
-CObject object;
-
 CCore::CCore() :
 	m_hWnd(),
 	m_resolution(),
@@ -55,15 +53,17 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 	CInputManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
 
-	object.SetPosition(Vec2(m_resolution.cx / 2, m_resolution.cy / 2));
-	object.SetScale(Vec2(100, 100));
-
 	return S_OK;
 }
 
 HWND CCore::GetHwnd()
 {
 	return m_hWnd;
+}
+
+const SIZE& CCore::GetResolution()
+{
+	return m_resolution;
 }
 
 void CCore::AdvanceFrame()

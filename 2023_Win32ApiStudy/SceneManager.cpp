@@ -30,6 +30,11 @@ void CSceneManager::Init()
 	m_currentScene->Enter();
 }
 
+CScene* CSceneManager::GetCurrentScene()
+{
+	return m_currentScene;
+}
+
 void CSceneManager::Update()
 {
 	m_currentScene->Update();

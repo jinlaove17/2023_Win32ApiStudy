@@ -31,6 +31,7 @@ public:
 	int Init(HWND hWnd, const SIZE& resolution);
 
 	HWND GetHwnd();
+	const SIZE& GetResolution();
 
 	void AdvanceFrame();
 };

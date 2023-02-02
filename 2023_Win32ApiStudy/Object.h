@@ -16,6 +16,6 @@ public:
 	void SetScale(const Vec2& scale);
 	const Vec2& GetScale();
 
-	virtual void Update();
+	virtual void Update() = 0;
 	virtual void Render(HDC hDC);
 };
