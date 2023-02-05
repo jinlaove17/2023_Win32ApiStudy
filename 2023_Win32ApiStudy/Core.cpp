@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "AssetManager.h"
+#include "CollisionManager.h"
 
 #include "Object.h"
 
@@ -79,6 +80,7 @@ void CCore::AdvanceFrame()
 	CTimeManager::GetInstance()->Update();
 	CInputManager::GetInstance()->Update();
 	CSceneManager::GetInstance()->Update();
+	CCollisionManager::GetInstance()->Update();
 
 	// 화면 클리어
 	Rectangle(m_hMemDC, -1, -1, m_resolution.cx + 1, m_resolution.cy + 1);

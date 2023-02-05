@@ -43,6 +43,12 @@
     <Filter Include="헤더 파일\05. Asset">
       <UniqueIdentifier>{89d8b0a9-6c2b-428c-846a-84bb9d1c59be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06. Component">
+      <UniqueIdentifier>{e089d27a-912a-4abb-8a7b-135ea66cbfb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\06. Component">
+      <UniqueIdentifier>{708d4c95-943a-4db2-91b7-096d125d27ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -102,6 +108,12 @@
     <ClInclude Include="AssetManager.h">
       <Filter>헤더 파일\02. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>헤더 파일\06. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>헤더 파일\02. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -144,6 +156,15 @@
       <Filter>소스 파일\05. Asset</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
+      <Filter>소스 파일\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>소스 파일\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="struct.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\02. Manager</Filter>
     </ClCompile>
   </ItemGroup>

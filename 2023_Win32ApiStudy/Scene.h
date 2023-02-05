@@ -17,10 +17,12 @@ public:
 	const wstring& GetName();
 
 	void AddObject(GROUP_TYPE group, CObject* object);
+	const vector<CObject*>& GetGroupObject(GROUP_TYPE group);
 
 	virtual void Enter() = 0;
 	virtual void Exit() = 0;
 
 	void Update();
+	void LateUpdate();
 	void Render(HDC hDC);
 };

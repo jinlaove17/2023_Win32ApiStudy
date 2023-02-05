@@ -24,6 +24,22 @@
 
 #define PI 3.1415926535f
 
+enum class PEN_TYPE
+{
+	RED,
+	GREEN,
+	BLUE,
+
+	COUNT
+};
+
+enum class BRUSH_TYPE
+{
+	HOLLOW,
+
+	COUNT
+};
+
 enum class SCENE_TYPE
 {
 	TITLE,
@@ -36,8 +52,10 @@ enum class SCENE_TYPE
 enum class GROUP_TYPE
 {
 	DEFAULT,
-	PLAYER,
 	MONSTER,
+	MONSTER_PROJ,
+	PLAYER_PROJ,
+	PLAYER,
 
 	COUNT
 };

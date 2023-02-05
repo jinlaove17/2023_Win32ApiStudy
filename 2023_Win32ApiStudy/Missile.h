@@ -11,7 +11,7 @@ public:
 	virtual ~CMissile();
 
 	void SetDirection(const Vec2& direction);
-	float GetDirection();
+	const Vec2& GetDirection();
 
 	virtual void Update();
 	virtual void Render(HDC hDC);

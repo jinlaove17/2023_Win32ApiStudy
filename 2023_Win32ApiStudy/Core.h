@@ -24,15 +24,16 @@ private:
 	// 메인 윈도우의 디바이스 컨택스트
 	HDC     m_hDC;
 
+	// 더블 버퍼링
 	HBITMAP m_hBitmap;
 	HDC		m_hMemDC;
-	
+
 public:
 	int Init(HWND hWnd, const SIZE& resolution);
 
 	HWND GetHwnd();
 	const SIZE& GetResolution();
-	HDC  GetDC();
+	HDC GetDC();
 
 	void AdvanceFrame();
 };

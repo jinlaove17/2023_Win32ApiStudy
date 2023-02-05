@@ -40,6 +40,11 @@ void CScene::AddObject(GROUP_TYPE group, CObject* object)
 	m_objects[(int)group].push_back(object);
 }
 
+const vector<CObject*>& CScene::GetGroupObject(GROUP_TYPE group)
+{
+	return m_objects[(int)group];
+}
+
 void CScene::Update()
 {
 	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
@@ -47,6 +52,17 @@ void CScene::Update()
 		for (int j = 0; j < m_objects[i].size(); ++j)
 		{
 			m_objects[i][j]->Update();
+		}
+	}
+}
+
+void CScene::LateUpdate()
+{
+	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
+	{
+		for (int j = 0; j < m_objects[i].size(); ++j)
+		{
+			m_objects[i][j]->LateUpdate();
 		}
 	}
 }

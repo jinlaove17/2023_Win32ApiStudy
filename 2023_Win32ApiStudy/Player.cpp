@@ -9,13 +9,19 @@
 #include "Scene.h"
 
 #include "Texture.h"
+#include "Collider.h"
 
 #include "Missile.h"
 
 CPlayer::CPlayer()
 {
-	// 텍스처 불러오기
+	SetName(L"Player");
+
 	SetTexture(CAssetManager::GetInstance()->LoadTexture(L"Player.bmp", L"Player"));
+
+	CreateCollider();
+	GetCollider()->SetOffset(Vec2(0.0f, -5.0f));
+	GetCollider()->SetScale(Vec2(30.0f, 30.0f));
 }
 
 CPlayer::~CPlayer()
@@ -64,6 +70,8 @@ void CPlayer::Render(HDC hDC)
 
 	//BitBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, SRCCOPY);
 	TransparentBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, width, height, RGB(255, 0, 255));
+
+	ComponentRender(hDC);
 }
 
 void CPlayer::CreateMissile()
@@ -73,10 +81,10 @@ void CPlayer::CreateMissile()
 
 	missilePosition.m_y -= 0.5f * GetScale().m_y;
 	missile->SetPosition(missilePosition);
-	missile->SetScale(Vec2(20.0f, 20.0f));
+	missile->SetScale(Vec2(15.0f, 15.0f));
 	missile->SetDirection(Vec2(0.0f, -1.0f));
 
 	CScene* currentScene = CSceneManager::GetInstance()->GetCurrentScene();
 
-	currentScene->AddObject(GROUP_TYPE::DEFAULT, missile);
+	currentScene->AddObject(GROUP_TYPE::PLAYER_PROJ, missile);
 }

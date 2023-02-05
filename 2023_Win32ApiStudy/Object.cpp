@@ -1,15 +1,32 @@
 #include "pch.h"
 #include "Object.h"
 
+#include "Collider.h"
+
 CObject::CObject() :
 	m_position(),
 	m_scale(),
-	m_texture()
+	m_texture(),
+	m_collider()
 {
 }
 
 CObject::~CObject()
 {
+	if (m_collider != nullptr)
+	{
+		delete m_collider;
+	}
+}
+
+void CObject::SetName(const wstring& name)
+{
+	m_name = name;
+}
+
+const wstring& CObject::GetName()
+{
+	return m_name;
 }
 
 void CObject::SetPosition(const Vec2& position)
@@ -42,6 +59,40 @@ CTexture* CObject::GetTexture()
 	return m_texture;
 }
 
+void CObject::CreateCollider()
+{
+	if (m_collider == nullptr)
+	{
+		m_collider = new CCollider();
+		m_collider->m_owner = this;
+	}
+}
+
+CCollider* CObject::GetCollider()
+{
+	return m_collider;
+}
+
+void CObject::OnCollisionEnter(CCollider* collidedCollider)
+{
+}
+
+void CObject::OnCollision(CCollider* collidedCollider)
+{
+}
+
+void CObject::OnCollisionExit(CCollider* collidedCollider)
+{
+}
+
+void CObject::LateUpdate()
+{
+	if (m_collider != nullptr)
+	{
+		m_collider->Update();
+	}
+}
+
 void CObject::Render(HDC hDC)
 {
 	Rectangle(hDC,
@@ -49,4 +100,14 @@ void CObject::Render(HDC hDC)
 		(int)(m_position.m_y - 0.5f * m_scale.m_y),
 		(int)(m_position.m_x + 0.5f * m_scale.m_x),
 		(int)(m_position.m_y + 0.5f * m_scale.m_y));
+
+	ComponentRender(hDC);
+}
+
+void CObject::ComponentRender(HDC hDC)
+{
+	if (m_collider != nullptr)
+	{
+		m_collider->Render(hDC);
+	}
 }

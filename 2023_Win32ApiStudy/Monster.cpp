@@ -3,12 +3,18 @@
 
 #include "TimeManager.h"
 
+#include "Collider.h"
+
 CMonster::CMonster() :
 	m_centerPosition(),
 	m_direction(1.0f),
 	m_speed(150.0f),
 	m_maxDistance(40.0f)
 {
+	SetName(L"Monster");
+
+	CreateCollider();
+	GetCollider()->SetScale(Vec2(40.0f, 40.0f));
 }
 
 CMonster::~CMonster()
@@ -53,6 +59,18 @@ void CMonster::SetCenterPosition(const Vec2& centerPosition)
 const Vec2& CMonster::GetCenterPosition()
 {
 	return m_centerPosition;
+}
+
+void CMonster::OnCollisionEnter(CCollider* collidedCollider)
+{
+}
+
+void CMonster::OnCollision(CCollider* collidedCollider)
+{
+}
+
+void CMonster::OnCollisionExit(CCollider* collidedCollider)
+{
 }
 
 void CMonster::Update()

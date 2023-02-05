@@ -8,6 +8,7 @@ public:
 	virtual ~CPlayer();
 
 	virtual void Update();
+
 	virtual void Render(HDC hDC);
 
 private:
