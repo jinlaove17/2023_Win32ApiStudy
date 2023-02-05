@@ -3,7 +3,8 @@
 
 CObject::CObject() :
 	m_position(),
-	m_scale()
+	m_scale(),
+	m_texture()
 {
 }
 
@@ -29,6 +30,16 @@ void CObject::SetScale(const Vec2& scale)
 const Vec2& CObject::GetScale()
 {
 	return m_scale;
+}
+
+void CObject::SetTexture(CTexture* texture)
+{
+	m_texture = texture;
+}
+
+CTexture* CObject::GetTexture()
+{
+	return m_texture;
 }
 
 void CObject::Render(HDC hDC)

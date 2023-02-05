@@ -1,4 +1,5 @@
 #pragma once
+#pragma comment(lib, "Msimg32.lib")
 
 // <미리 컴파일된 헤더>
 // - 모든 cpp파일들은 이 헤더 파일을 포함해야한다.
@@ -22,6 +23,7 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 

@@ -32,6 +32,7 @@ public:
 
 	HWND GetHwnd();
 	const SIZE& GetResolution();
+	HDC  GetDC();
 
 	void AdvanceFrame();
 };

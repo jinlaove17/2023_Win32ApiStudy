@@ -37,12 +37,15 @@
     <Filter Include="헤더 파일\04. Scene">
       <UniqueIdentifier>{12509612-baa1-4158-a27e-2321337b6088}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05. Asset">
+      <UniqueIdentifier>{d724377d-3c94-48ba-9338-34bea45367f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\05. Asset">
+      <UniqueIdentifier>{89d8b0a9-6c2b-428c-846a-84bb9d1c59be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
@@ -87,6 +90,18 @@
     <ClInclude Include="Missile.h">
       <Filter>헤더 파일\03. Object</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>헤더 파일\05. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>헤더 파일\05. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>헤더 파일\02. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -121,6 +136,15 @@
     </ClCompile>
     <ClCompile Include="Missile.cpp">
       <Filter>소스 파일\03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>소스 파일\05. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\05. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>소스 파일\02. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

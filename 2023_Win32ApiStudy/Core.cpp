@@ -4,6 +4,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "AssetManager.h"
 
 #include "Object.h"
 
@@ -30,7 +31,7 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 {
 	m_hWnd = hWnd;
 	m_resolution = resolution;
-	m_hDC = GetDC(m_hWnd);
+	m_hDC = ::GetDC(m_hWnd);
 	
 	// 해상도에 맞게 윈도우 크기 조정
 	RECT rect = { 0, 0, m_resolution.cx, m_resolution.cy };
@@ -51,6 +52,7 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 	// 매니저 초기화
 	CTimeManager::GetInstance()->Init();
 	CInputManager::GetInstance()->Init();
+	CAssetManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
 
 	return S_OK;
@@ -64,6 +66,11 @@ HWND CCore::GetHwnd()
 const SIZE& CCore::GetResolution()
 {
 	return m_resolution;
+}
+
+HDC CCore::GetDC()
+{
+	return m_hDC;
 }
 
 void CCore::AdvanceFrame()
