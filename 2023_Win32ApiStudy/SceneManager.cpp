@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneManager.h"
 
+#include "ToolScene.h"
 #include "TitleScene.h"
 
 CSceneManager::CSceneManager() :
@@ -23,7 +24,10 @@ CSceneManager::~CSceneManager()
 void CSceneManager::Init()
 {
 	// ¾À »ı¼º
+	m_scenes[(int)SCENE_TYPE::TOOL] = new CToolScene();
+	m_scenes[(int)SCENE_TYPE::TOOL]->SetName(L"ToolScene");
 	m_scenes[(int)SCENE_TYPE::TITLE] = new CTitleScene();
+	m_scenes[(int)SCENE_TYPE::TITLE]->SetName(L"TitleScene");
 
 	// ÇöÀç ¾À ¼³Á¤
 	m_currentScene = m_scenes[(int)SCENE_TYPE::TITLE];
@@ -43,4 +47,11 @@ void CSceneManager::Update()
 void CSceneManager::Render(HDC hDC)
 {
 	m_currentScene->Render(hDC);
+}
+
+void CSceneManager::ChangeScene(SCENE_TYPE scene)
+{
+	m_currentScene->Exit();
+	m_currentScene = m_scenes[(int)scene];
+	m_currentScene->Enter();
 }

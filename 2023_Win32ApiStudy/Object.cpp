@@ -14,11 +14,28 @@ CObject::CObject() :
 {
 }
 
+CObject::CObject(const CObject& rhs) :
+	m_isActive(rhs.m_isActive),
+	m_isDeleted(),
+	m_name(rhs.m_name),
+	m_position(rhs.m_position),
+	m_scale(rhs.m_scale),
+	m_texture(rhs.m_texture),
+	m_collider()
+{
+	if (rhs.m_collider != nullptr)
+	{
+		m_collider = new CCollider(*rhs.m_collider);
+		m_collider->m_owner = this;
+	}
+}
+
 CObject::~CObject()
 {
 	if (m_collider != nullptr)
 	{
 		delete m_collider;
+		m_collider = nullptr;
 	}
 }
 

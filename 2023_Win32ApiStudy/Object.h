@@ -19,7 +19,10 @@ private:
 
 public:
 	CObject();
+	CObject(const CObject& rhs);
 	virtual ~CObject();
+
+	virtual CObject* Clone() = 0;
 
 	void SetActive(bool isActive);
 	bool IsActive();

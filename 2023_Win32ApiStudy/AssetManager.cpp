@@ -11,11 +11,12 @@ CAssetManager::CAssetManager() :
 
 CAssetManager::~CAssetManager()
 {
-	for (auto iter = m_textures.begin(); iter != m_textures.end(); ++iter)
+	for (auto& p : m_textures)
 	{
-		if (iter->second != nullptr)
+		if (p.second != nullptr)
 		{
-			delete iter->second;
+			delete p.second;
+			p.second = nullptr;
 		}
 	}
 

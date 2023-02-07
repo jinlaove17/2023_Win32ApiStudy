@@ -3,7 +3,9 @@
 
 #include "Core.h"
 
+#include "InputManager.h"
 #include "CollisionManager.h"
+#include "EventManager.h"
 
 #include "Player.h"
 #include "Monster.h"
@@ -23,6 +25,12 @@ void CTitleScene::Enter()
 	CObject* object = new CPlayer();
 
 	object->SetPosition(Vec2(640.0f, 384.0f));
+	object->SetScale(Vec2(100.0f, 100.0f));
+
+	AddObject(GROUP_TYPE::PLAYER, object);
+
+	object = object->Clone(); //new CPlayer(*(CPlayer*)object);
+	object->SetPosition(Vec2(740.0f, 384.0f));
 	object->SetScale(Vec2(100.0f, 100.0f));
 
 	AddObject(GROUP_TYPE::PLAYER, object);
@@ -49,5 +57,20 @@ void CTitleScene::Enter()
 
 void CTitleScene::Exit()
 {
+	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
+	{
+		DeleteGroupObject((GROUP_TYPE)i);
+	}
+
 	CCollisionManager::GetInstance()->ResetCollisionGroup();
+}
+
+void CTitleScene::Update()
+{
+	CScene::Update();
+
+	if (KEY_TAP(KEY::ENTER))
+	{
+		CEventManager::GetInstance()->ChangeScene(SCENE_TYPE::TOOL);
+	}
 }

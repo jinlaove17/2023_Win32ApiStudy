@@ -18,11 +18,12 @@ public:
 
 	void AddObject(GROUP_TYPE group, CObject* object);
 	const vector<CObject*>& GetGroupObject(GROUP_TYPE group);
+	void DeleteGroupObject(GROUP_TYPE group);
 
 	virtual void Enter() = 0;
 	virtual void Exit() = 0;
 
-	void Update();
-	void LateUpdate();
-	void Render(HDC hDC);
+	virtual void Update();
+	virtual void LateUpdate();
+	virtual void Render(HDC hDC);
 };

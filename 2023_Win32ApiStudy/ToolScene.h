@@ -1,11 +1,11 @@
 #pragma once
 #include "Scene.h"
 
-class CTitleScene : public CScene
+class CToolScene : public CScene
 {
 public:
-	CTitleScene();
-	virtual ~CTitleScene();
+	CToolScene();
+	virtual ~CToolScene();
 
 	virtual void Enter();
 	virtual void Exit();

@@ -15,6 +15,11 @@
 								 return &instance;\
 							}
 
+#define CLONE(type) virtual type* Clone()\
+					{\
+						return new type(*this);\
+					}
+
 #define DT CTimeManager::GetInstance()->GetDeltaTime()
 
 #define KEY_NONE(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::NONE
@@ -42,6 +47,7 @@ enum class BRUSH_TYPE
 
 enum class SCENE_TYPE
 {
+	TOOL,
 	TITLE,
 	STAGE1,
 	STAGE2,

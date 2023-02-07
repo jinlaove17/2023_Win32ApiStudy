@@ -13,15 +13,7 @@ CScene::~CScene()
 {
 	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
 	{
-		for (int j = 0; j < m_objects[i].size(); ++j)
-		{
-			if (m_objects[i][j] != nullptr)
-			{
-				delete m_objects[i][j];
-			}
-		}
-
-		m_objects[i].clear();
+		SafeDelete(m_objects[i]);
 	}
 }
 
@@ -43,6 +35,11 @@ void CScene::AddObject(GROUP_TYPE group, CObject* object)
 const vector<CObject*>& CScene::GetGroupObject(GROUP_TYPE group)
 {
 	return m_objects[(int)group];
+}
+
+void CScene::DeleteGroupObject(GROUP_TYPE group)
+{
+	SafeDelete(m_objects[(int)group]);
 }
 
 void CScene::Update()

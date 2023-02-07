@@ -16,6 +16,15 @@ CCollider::CCollider() :
 {
 }
 
+CCollider::CCollider(const CCollider& rhs) :
+	m_id(m_nextID++),
+	m_owner(),
+	m_offset(rhs.m_offset),
+	m_scale(rhs.m_scale),
+	m_collisionCount()
+{
+}
+
 CCollider::~CCollider()
 {
 }

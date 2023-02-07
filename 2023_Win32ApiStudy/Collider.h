@@ -20,7 +20,7 @@ private:
 
 private:
 	CCollider();
-	CCollider(const CCollider& rhs) = delete;
+	CCollider(const CCollider& rhs);
 	~CCollider();
 
 public:

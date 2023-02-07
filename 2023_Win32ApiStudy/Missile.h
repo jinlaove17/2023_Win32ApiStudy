@@ -10,6 +10,8 @@ public:
 	CMissile();
 	virtual ~CMissile();
 
+	CLONE(CMissile);
+
 	void SetDirection(const Vec2& direction);
 	const Vec2& GetDirection();
 

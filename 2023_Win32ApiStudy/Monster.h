@@ -14,6 +14,8 @@ public:
 	CMonster();
 	virtual ~CMonster();
 
+	CLONE(CMonster);
+
 	void SetDirection(float direction);
 	float GetDirection();
 

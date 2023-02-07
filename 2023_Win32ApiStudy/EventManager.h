@@ -15,6 +15,7 @@ private:
 public:
 	void CreateObject(GROUP_TYPE group, CObject* object);
 	void DeleteObject(CObject* object);
+	void ChangeScene(SCENE_TYPE scene);
 
 	void Update();
 };

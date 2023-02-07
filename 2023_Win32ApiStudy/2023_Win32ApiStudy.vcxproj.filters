@@ -117,6 +117,12 @@
     <ClInclude Include="EventManager.h">
       <Filter>헤더 파일\02. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="ToolScene.h">
+      <Filter>헤더 파일\04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -172,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>소스 파일\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolScene.cpp">
+      <Filter>소스 파일\04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

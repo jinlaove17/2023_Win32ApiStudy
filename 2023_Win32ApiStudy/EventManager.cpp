@@ -36,6 +36,14 @@ void CEventManager::DeleteObject(CObject* object)
 		});
 }
 
+void CEventManager::ChangeScene(SCENE_TYPE scene)
+{
+	m_eventQueue.push([scene]()
+		{
+			CSceneManager::GetInstance()->ChangeScene(scene);
+		});
+}
+
 void CEventManager::Update()
 {
 	// 이전 프레임에 등록된 삭제할 오브젝트를 모두 제거한다.
