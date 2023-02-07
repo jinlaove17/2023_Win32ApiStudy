@@ -7,7 +7,7 @@ class CAssetManager
 	SINGLETON(CAssetManager);
 
 private:
-	wchar_t m_assetPath[255];
+	wchar_t							  m_assetPath[255];
 
 	unordered_map<wstring, CTexture*> m_textures;
 

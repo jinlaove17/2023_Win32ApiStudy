@@ -34,6 +34,7 @@ void CTitleScene::Enter()
 	{
 		CMonster* monster = new CMonster();
 
+		monster->SetName(L"Monster");
 		monster->SetPosition(Vec2(200.0f + (float)term * i, 50.0f));
 		monster->SetScale(Vec2(50.0f, 50.0f));
 		monster->SetCenterPosition(monster->GetPosition());

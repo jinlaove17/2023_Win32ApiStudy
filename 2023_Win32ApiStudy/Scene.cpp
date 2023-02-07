@@ -51,7 +51,10 @@ void CScene::Update()
 	{
 		for (int j = 0; j < m_objects[i].size(); ++j)
 		{
-			m_objects[i][j]->Update();
+			if (m_objects[i][j]->IsActive() && !m_objects[i][j]->IsDeleted())
+			{
+				m_objects[i][j]->Update();
+			}
 		}
 	}
 }
@@ -62,7 +65,10 @@ void CScene::LateUpdate()
 	{
 		for (int j = 0; j < m_objects[i].size(); ++j)
 		{
-			m_objects[i][j]->LateUpdate();
+			if (m_objects[i][j]->IsActive() && !m_objects[i][j]->IsDeleted())
+			{
+				m_objects[i][j]->LateUpdate();
+			}
 		}
 	}
 }
@@ -71,9 +77,20 @@ void CScene::Render(HDC hDC)
 {
 	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
 	{
-		for (int j = 0; j < m_objects[i].size(); ++j)
+		for (auto iter = m_objects[i].begin(); iter != m_objects[i].end(); )
 		{
-			m_objects[i][j]->Render(hDC);
+			CObject* object = *iter;
+
+			// 삭제 예정된 오브젝트를 벡터에서 제거한다.
+			if (object->IsDeleted())
+			{
+				iter = m_objects[i].erase(iter);
+			}
+			else if (object->IsActive())
+			{
+				object->Render(hDC);
+				++iter;
+			}
 		}
 	}
 }

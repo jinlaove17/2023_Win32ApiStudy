@@ -4,6 +4,9 @@
 #include "Collider.h"
 
 CObject::CObject() :
+	m_isActive(true),
+	m_isDeleted(),
+	m_name(),
 	m_position(),
 	m_scale(),
 	m_texture(),
@@ -17,6 +20,26 @@ CObject::~CObject()
 	{
 		delete m_collider;
 	}
+}
+
+void CObject::SetActive(bool isActive)
+{
+	m_isActive = isActive;
+}
+
+bool CObject::IsActive()
+{
+	return m_isActive;
+}
+
+void CObject::SetDeleted(bool isDeleted)
+{
+	m_isDeleted = isDeleted;
+}
+
+bool CObject::IsDeleted()
+{
+	return m_isDeleted;
 }
 
 void CObject::SetName(const wstring& name)

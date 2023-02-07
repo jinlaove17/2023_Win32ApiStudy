@@ -31,7 +31,7 @@ void CAssetManager::Init()
 	GetCurrentDirectory(255, m_assetPath);
 
 	// 상위 폴더 경로를 구한다.
-	for (int i = wcslen(m_assetPath) - 1; i >= 0; --i)
+	for (int i = (int)wcslen(m_assetPath) - 1; i >= 0; --i)
 	{
 		if (m_assetPath[i] == '\\')
 		{

@@ -2,6 +2,7 @@
 #include "Monster.h"
 
 #include "TimeManager.h"
+#include "EventManager.h"
 
 #include "Collider.h"
 
@@ -11,8 +12,6 @@ CMonster::CMonster() :
 	m_speed(150.0f),
 	m_maxDistance(40.0f)
 {
-	SetName(L"Monster");
-
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(40.0f, 40.0f));
 }
@@ -63,6 +62,12 @@ const Vec2& CMonster::GetCenterPosition()
 
 void CMonster::OnCollisionEnter(CCollider* collidedCollider)
 {
+	CObject* collidedObject = collidedCollider->GetOwner();
+
+	if (collidedObject->GetName() == L"Missile(Player)")
+	{
+		CEventManager::GetInstance()->DeleteObject(this);
+	}
 }
 
 void CMonster::OnCollision(CCollider* collidedCollider)

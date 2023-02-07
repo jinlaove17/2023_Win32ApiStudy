@@ -4,9 +4,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "AssetManager.h"
-#include "SceneManager.h"
-
-#include "Scene.h"
+#include "EventManager.h"
 
 #include "Texture.h"
 #include "Collider.h"
@@ -80,11 +78,10 @@ void CPlayer::CreateMissile()
 	Vec2 missilePosition = GetPosition();
 
 	missilePosition.m_y -= 0.5f * GetScale().m_y;
+	missile->SetName(L"Missile(Player)");
 	missile->SetPosition(missilePosition);
 	missile->SetScale(Vec2(15.0f, 15.0f));
 	missile->SetDirection(Vec2(0.0f, -1.0f));
 
-	CScene* currentScene = CSceneManager::GetInstance()->GetCurrentScene();
-
-	currentScene->AddObject(GROUP_TYPE::PLAYER_PROJ, missile);
+	CEventManager::GetInstance()->CreateObject(GROUP_TYPE::PLAYER_PROJ, missile);
 }

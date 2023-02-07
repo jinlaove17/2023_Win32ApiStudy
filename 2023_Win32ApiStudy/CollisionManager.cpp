@@ -94,29 +94,38 @@ void CCollisionManager::UpdateCollisionGroup(GROUP_TYPE group1, GROUP_TYPE group
 			collisionID.m_lowPart = collider1->GetID();
 			collisionID.m_highPart = collider2->GetID();
 
-			//auto iter = m_prevStates.find(collisionID);
-
-			//// 등록되지 않은 아이디라면 두 충돌체의 조합 아이디를 생성하여 추가
-			//if (iter == m_prevStates.end())
-			//{
-			//	m_prevStates.insert(make_pair(collisionID, false));
-			//}
-
 			// 현재 프레임에 두 충돌체가 충돌한 경우
 			if (IsCollided(collider1, collider2))
 			{
 				// 이전 프레임에도 충돌한 경우
 				if (m_prevStates[collisionID.m_quadPart])
 				{
-					collider1->OnCollision(collider2);
-					collider2->OnCollision(collider1);
+					// 두 오브젝트 중 한 오브젝트라도 비활성화 되었거나, 삭제 예정인 오브젝트인 경우 두 오브젝트의 충돌을 해제시킨다.
+					if (!group1Objects[i]->IsActive() || group1Objects[i]->IsDeleted() ||
+						!group2Objects[j]->IsActive() || group2Objects[j]->IsDeleted())
+					{
+						collider1->OnCollisionExit(collider2);
+						collider2->OnCollisionExit(collider1);
+
+						m_prevStates[collisionID.m_quadPart] = false;
+					}
+					else
+					{
+						collider1->OnCollision(collider2);
+						collider2->OnCollision(collider1);
+					}
 				}
 				else
 				{
-					collider1->OnCollisionEnter(collider2);
-					collider2->OnCollisionEnter(collider1);
+					// 두 오브젝트 중 한 오브젝트라도 비활성화 되었거나, 삭제 예정인 오브젝트인 경우 두 오브젝트의 충돌은 무효화된다.
+					if (group1Objects[i]->IsActive() && !group1Objects[i]->IsDeleted() &&
+						group2Objects[j]->IsActive() && !group2Objects[j]->IsDeleted())
+					{
+						collider1->OnCollisionEnter(collider2);
+						collider2->OnCollisionEnter(collider1);
 
-					m_prevStates[collisionID.m_quadPart] = true;
+						m_prevStates[collisionID.m_quadPart] = true;
+					}
 				}
 			}
 			else

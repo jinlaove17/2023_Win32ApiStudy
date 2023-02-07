@@ -8,8 +8,6 @@
 CMissile::CMissile() :
 	m_direction()
 {
-	SetName(L"Missile");
-
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(10.0f, 10.0f));
 }

@@ -6,6 +6,9 @@ class CCollider;
 class CObject
 {
 private:
+	bool	   m_isActive;
+	bool       m_isDeleted;
+
 	wstring    m_name;
 
 	Vec2       m_position;
@@ -17,6 +20,12 @@ private:
 public:
 	CObject();
 	virtual ~CObject();
+
+	void SetActive(bool isActive);
+	bool IsActive();
+
+	void SetDeleted(bool isDeleted);
+	bool IsDeleted();
 
 	void SetName(const wstring& name);
 	const wstring& GetName();

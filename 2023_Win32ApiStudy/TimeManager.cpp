@@ -39,6 +39,16 @@ void CTimeManager::Update()
 	// 현재 프레임의 카운트와 이전 프레임의 카운트 차이를 초당 카운트 횟수로 나누어 초당 카운트의 차를 구한다.
 	m_deltaTime = (float)(m_currentCount.QuadPart - m_prevCount.QuadPart) / m_frequency.QuadPart;
 
+#ifdef _DEBUG
+	// 중단점을 걸었을 때, 시간이 오래 지나면 m_deltaTime이 매우 커지기 때문에 디버그 모드일 때는 이 값을 고정시킨다.
+	float fixedDeltaTime = 1.0f / 60.0f;
+
+	if (m_deltaTime > fixedDeltaTime)
+	{
+		m_deltaTime = fixedDeltaTime;
+	}
+#endif
+
 	// 다음 번 계산을 위해여 이전 카운트의 값을 현재 카운트 값으로 갱신한다.
 	m_prevCount = m_currentCount;
 

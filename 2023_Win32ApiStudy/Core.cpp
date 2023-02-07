@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "AssetManager.h"
 #include "CollisionManager.h"
+#include "EventManager.h"
 
 #include "Object.h"
 
@@ -89,4 +90,7 @@ void CCore::AdvanceFrame()
 
 	// m_hMemDC에 그려진 내용을 m_hDC로 복사한다.
 	BitBlt(m_hDC, 0, 0, m_resolution.cx, m_resolution.cy, m_hMemDC, 0, 0, SRCCOPY);
+
+	// 이번 프레임에 추가된 이벤트를 처리한다.
+	CEventManager::GetInstance()->Update();
 }
