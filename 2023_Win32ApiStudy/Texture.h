@@ -12,6 +12,8 @@ private:
 
 private:
 	CTexture();
+
+public:
 	virtual ~CTexture();
 
 public:

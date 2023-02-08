@@ -42,6 +42,7 @@ CScene* CSceneManager::GetCurrentScene()
 void CSceneManager::Update()
 {
 	m_currentScene->Update();
+	m_currentScene->LateUpdate();
 }
 
 void CSceneManager::Render(HDC hDC)

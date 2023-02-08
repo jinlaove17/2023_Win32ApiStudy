@@ -11,16 +11,7 @@ CAssetManager::CAssetManager() :
 
 CAssetManager::~CAssetManager()
 {
-	for (auto& p : m_textures)
-	{
-		if (p.second != nullptr)
-		{
-			delete p.second;
-			p.second = nullptr;
-		}
-	}
-
-	m_textures.clear();
+	SafeDelete(m_textures);
 }
 
 void CAssetManager::Init()
@@ -60,7 +51,7 @@ CTexture* CAssetManager::LoadTexture(const wstring& fileName, const wstring& key
 		texture->SetFilePath(filePath);
 		texture->Load(filePath);
 
-		m_textures.insert(make_pair(key, texture));
+		m_textures.emplace(key, texture);
 	}
 
 	return texture;

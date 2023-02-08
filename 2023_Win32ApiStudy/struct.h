@@ -103,9 +103,27 @@ public:
 		return Vec2(m_x + other.m_x, m_y + other.m_y);
 	}
 
+	Vec2& operator +=(const Vec2& other)
+	{
+		m_x += other.m_x;
+		m_y += other.m_y;
+
+		return *this;
+	}
+
 	Vec2 operator -(const Vec2& other) const
 	{
 		return Vec2(m_x - other.m_x, m_y - other.m_y);
+	}
+
+	Vec2 operator * (int i)
+	{
+		return Vec2(i * m_x, i * m_y);
+	}
+
+	Vec2 operator * (float f)
+	{
+		return Vec2(f * m_x, f * m_y);
 	}
 
 	float Length()

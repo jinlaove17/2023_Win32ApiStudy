@@ -15,17 +15,17 @@ inline void SafeDelete(vector<T>& v)
 	v.clear();
 }
 
-//template<typename T, typename U>
-//inline void SafeDelete(unordered_map<T, U>& um)
-//{
-//	for (const auto& p : um)
-//	{
-//		if (p.second != nullptr)
-//		{
-//			delete p.second;
-//			p.second = nullptr;
-//		}
-//	}
-//
-//	um.clear();
-//}
+template<typename T, typename U>
+inline void SafeDelete(unordered_map<T, U>& um)
+{
+	for (auto& p : um)
+	{
+		if (p.second != nullptr)
+		{
+			delete p.second;
+			p.second = nullptr;
+		}
+	}
+
+	um.clear();
+}

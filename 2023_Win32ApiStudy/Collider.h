@@ -10,13 +10,13 @@ private:
 	static UINT m_nextID;
 
 	UINT	    m_id;             // 고유한 값
-			    		          
-	CObject*    m_owner;          
-			    		          
+    		                    
 	Vec2	    m_offset;         // m_owner의 위치로부터 상대적인 위치
 	Vec2	    m_scale;          // 충돌체의 크기
 
 	UINT		m_collisionCount; // 현재 충돌 중인 충돌체의 개수
+
+	CObject*    m_owner;
 
 private:
 	CCollider();
@@ -29,8 +29,6 @@ public:
 public:
 	UINT GetID();
 
-	CObject* GetOwner();
-
 	void SetOffset(const Vec2& offset);
 	const Vec2& GetOffset();
 
@@ -38,6 +36,8 @@ public:
 
 	void SetScale(const Vec2& scale);
 	const Vec2& GetScale();
+
+	CObject* GetOwner();
 
 	void OnCollisionEnter(CCollider* collidedCollider); // 충돌 진입 시 호출
 	void OnCollision(CCollider* collidedCollider);      // 충돌 중일 시 호출

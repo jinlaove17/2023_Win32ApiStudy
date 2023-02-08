@@ -2,6 +2,7 @@
 #include "Object.h"
 
 #include "Collider.h"
+#include "Animator.h"
 
 CObject::CObject() :
 	m_isActive(true),
@@ -10,7 +11,8 @@ CObject::CObject() :
 	m_position(),
 	m_scale(),
 	m_texture(),
-	m_collider()
+	m_collider(),
+	m_animator()
 {
 }
 
@@ -21,12 +23,19 @@ CObject::CObject(const CObject& rhs) :
 	m_position(rhs.m_position),
 	m_scale(rhs.m_scale),
 	m_texture(rhs.m_texture),
-	m_collider()
+	m_collider(),
+	m_animator()
 {
 	if (rhs.m_collider != nullptr)
 	{
 		m_collider = new CCollider(*rhs.m_collider);
 		m_collider->m_owner = this;
+	}
+
+	if (rhs.m_animator != nullptr)
+	{
+		m_animator = new CAnimator(*rhs.m_animator);
+		m_animator->m_owner = this;
 	}
 }
 
@@ -36,6 +45,12 @@ CObject::~CObject()
 	{
 		delete m_collider;
 		m_collider = nullptr;
+	}
+
+	if (m_animator != nullptr)
+	{
+		delete m_animator;
+		m_animator = nullptr;
 	}
 }
 
@@ -113,6 +128,20 @@ CCollider* CObject::GetCollider()
 	return m_collider;
 }
 
+void CObject::CreateAnimator()
+{
+	if (m_animator == nullptr)
+	{
+		m_animator = new CAnimator();
+		m_animator->m_owner = this;
+	}
+}
+
+CAnimator* CObject::GetAnimator()
+{
+	return m_animator;
+}
+
 void CObject::OnCollisionEnter(CCollider* collidedCollider)
 {
 }
@@ -130,6 +159,11 @@ void CObject::LateUpdate()
 	if (m_collider != nullptr)
 	{
 		m_collider->Update();
+	}
+
+	if (m_animator != nullptr)
+	{
+		m_animator->Update();
 	}
 }
 
@@ -149,5 +183,10 @@ void CObject::ComponentRender(HDC hDC)
 	if (m_collider != nullptr)
 	{
 		m_collider->Render(hDC);
+	}
+
+	if (m_animator != nullptr)
+	{
+		m_animator->Render(hDC);
 	}
 }

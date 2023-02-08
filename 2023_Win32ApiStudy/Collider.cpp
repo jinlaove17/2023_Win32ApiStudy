@@ -9,19 +9,19 @@ UINT CCollider::m_nextID = 0;
 
 CCollider::CCollider() :
 	m_id(m_nextID++),
-	m_owner(),
 	m_offset(),
 	m_scale(),
-	m_collisionCount()
+	m_collisionCount(),
+	m_owner()
 {
 }
 
 CCollider::CCollider(const CCollider& rhs) :
 	m_id(m_nextID++),
-	m_owner(),
 	m_offset(rhs.m_offset),
 	m_scale(rhs.m_scale),
-	m_collisionCount()
+	m_collisionCount(),
+	m_owner()
 {
 }
 
@@ -32,11 +32,6 @@ CCollider::~CCollider()
 UINT CCollider::GetID()
 {
 	return m_id;
-}
-
-CObject* CCollider::GetOwner()
-{
-	return m_owner;
 }
 
 void CCollider::SetOffset(const Vec2& offset)
@@ -62,6 +57,11 @@ void CCollider::SetScale(const Vec2& scale)
 const Vec2& CCollider::GetScale()
 {
 	return m_scale;
+}
+
+CObject* CCollider::GetOwner()
+{
+	return m_owner;
 }
 
 void CCollider::OnCollisionEnter(CCollider* collidedCollider)

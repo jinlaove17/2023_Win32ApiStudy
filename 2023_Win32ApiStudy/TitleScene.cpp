@@ -24,13 +24,8 @@ void CTitleScene::Enter()
 	// 오브젝트 추가
 	CObject* object = new CPlayer();
 
+	object->SetName(L"Player");
 	object->SetPosition(Vec2(640.0f, 384.0f));
-	object->SetScale(Vec2(100.0f, 100.0f));
-
-	AddObject(GROUP_TYPE::PLAYER, object);
-
-	object = object->Clone(); //new CPlayer(*(CPlayer*)object);
-	object->SetPosition(Vec2(740.0f, 384.0f));
 	object->SetScale(Vec2(100.0f, 100.0f));
 
 	AddObject(GROUP_TYPE::PLAYER, object);

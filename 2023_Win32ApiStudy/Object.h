@@ -2,6 +2,7 @@
 
 class CTexture;
 class CCollider;
+class CAnimator;
 
 class CObject
 {
@@ -16,6 +17,7 @@ private:
 			   
 	CTexture*  m_texture;
 	CCollider* m_collider;
+	CAnimator* m_animator;
 
 public:
 	CObject();
@@ -44,6 +46,9 @@ public:
 
 	void CreateCollider();
 	CCollider* GetCollider();
+
+	void CreateAnimator();
+	CAnimator* GetAnimator();
 
 	virtual void OnCollisionEnter(CCollider* collidedCollider); // 충돌 진입 시 호출
 	virtual void OnCollision(CCollider* collidedCollider);      // 충돌 중일 시 호출

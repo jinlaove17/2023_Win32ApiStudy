@@ -8,18 +8,23 @@
 
 #include "Texture.h"
 #include "Collider.h"
+#include "Animator.h"
 
 #include "Missile.h"
 
 CPlayer::CPlayer()
 {
-	SetName(L"Player");
-
-	SetTexture(CAssetManager::GetInstance()->LoadTexture(L"Player.bmp", L"Player"));
-
 	CreateCollider();
-	GetCollider()->SetOffset(Vec2(0.0f, -5.0f));
-	GetCollider()->SetScale(Vec2(30.0f, 30.0f));
+	GetCollider()->SetScale(Vec2(60.0f, 65.0f));
+
+	CTexture* texture = CAssetManager::GetInstance()->LoadTexture(L"Link.bmp", L"Player");
+
+	CreateAnimator();
+	GetAnimator()->CreateAnimation(L"WALK_UP", texture, Vec2(10, 8), 60, 10, 0.06f);
+	GetAnimator()->CreateAnimation(L"WALK_DOWN", texture, Vec2(10, 8), 40, 10, 0.06f);
+	GetAnimator()->CreateAnimation(L"WALK_LEFT", texture, Vec2(10, 8), 50, 10, 0.06f);
+	GetAnimator()->CreateAnimation(L"WALK_RIGHT", texture, Vec2(10, 8), 70, 10, 0.06f);
+	GetAnimator()->Play(L"WALK_DOWN", true);
 }
 
 CPlayer::~CPlayer()
@@ -33,21 +38,29 @@ void CPlayer::Update()
 	if (KEY_HOLD(KEY::W))
 	{
 		position.m_y -= 300.0f * DT;
+
+		GetAnimator()->Play(L"WALK_UP", true);
 	}
 
 	if (KEY_HOLD(KEY::S))
 	{
 		position.m_y += 300.0f * DT;
+
+		GetAnimator()->Play(L"WALK_DOWN", true);
 	}
 
 	if (KEY_HOLD(KEY::A))
 	{
 		position.m_x -= 300.0f * DT;
+
+		GetAnimator()->Play(L"WALK_LEFT", true);
 	}
 
 	if (KEY_HOLD(KEY::D))
 	{
 		position.m_x += 300.0f * DT;
+
+		GetAnimator()->Play(L"WALK_RIGHT", true);
 	}
 
 	if (KEY_TAP(KEY::SPACE))
@@ -60,14 +73,14 @@ void CPlayer::Update()
 
 void CPlayer::Render(HDC hDC)
 {
-	const Vec2& position = GetPosition();
+	//const Vec2& position = GetPosition();
 
-	CTexture* texture = GetTexture();
-	int width = texture->GetWidth();
-	int height = texture->GetHeight();
+	//CTexture* texture = GetTexture();
+	//int width = texture->GetWidth();
+	//int height = texture->GetHeight();
 
-	//BitBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, SRCCOPY);
-	TransparentBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, width, height, RGB(255, 0, 255));
+	////BitBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, SRCCOPY);
+	//TransparentBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, width, height, RGB(255, 0, 255));
 
 	ComponentRender(hDC);
 }

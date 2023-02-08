@@ -123,6 +123,12 @@
     <ClInclude Include="func.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>헤더 파일\06. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>헤더 파일\06. Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -184,6 +190,12 @@
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>소스 파일\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>소스 파일\06. Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
