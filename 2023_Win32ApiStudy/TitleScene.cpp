@@ -6,6 +6,7 @@
 #include "InputManager.h"
 #include "CollisionManager.h"
 #include "EventManager.h"
+#include "Camera.h"
 
 #include "Player.h"
 #include "Monster.h"
@@ -30,7 +31,14 @@ void CTitleScene::Enter()
 
 	AddObject(GROUP_TYPE::PLAYER, object);
 
+	// 카메라 포커싱 설정
+	//CCamera::GetInstance()->SetTarget(object);
+
 	Vec2 resolution = CCore::GetInstance()->GetResolution();
+
+	// 초기 위치는 해상도의 정중앙이다.
+	CCamera::GetInstance()->SetFinalLookAt(resolution / 2.0f);
+
 	float term = (resolution.m_x - 2 * 200.0f) / 4.0f;
 
 	for (int i = 0; i < 5; ++i)
@@ -67,5 +75,12 @@ void CTitleScene::Update()
 	if (KEY_TAP(KEY::ENTER))
 	{
 		CEventManager::GetInstance()->ChangeScene(SCENE_TYPE::TOOL);
+	}
+
+	if (KEY_TAP(KEY::LBUTTON))
+	{
+		Vec2 finalLookAt = CCamera::GetInstance()->ScreenToWorld(CURSOR);
+
+		CCamera::GetInstance()->SetFinalLookAt(finalLookAt);
 	}
 }

@@ -3,6 +3,8 @@
 
 #include "Core.h"
 
+#include "Camera.h"
+
 #include "Object.h"
 
 UINT CCollider::m_nextID = 0;
@@ -90,7 +92,7 @@ void CCollider::Update()
 void CCollider::Render(HDC hDC)
 {
 	GDIObject gdiObject(hDC, (m_collisionCount > 0) ? PEN_TYPE::RED : PEN_TYPE::GREEN, BRUSH_TYPE::HOLLOW);
-	Vec2 finalPosition = GetPosition();
+	Vec2 finalPosition = CCamera::GetInstance()->WorldToScreen(GetPosition());
 
 	Rectangle(hDC,
 		(int)(finalPosition.m_x - 0.5f * m_scale.m_x),

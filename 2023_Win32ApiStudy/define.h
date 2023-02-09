@@ -15,19 +15,20 @@
 								 return &instance;\
 							}
 
-#define CLONE(type) virtual type* Clone()\
-					{\
-						return new type(*this);\
-					}
+#define CLONE(type)		virtual type* Clone()\
+						{\
+							return new type(*this);\
+						}
 
-#define DT CTimeManager::GetInstance()->GetDeltaTime()
+#define DT				CTimeManager::GetInstance()->GetDeltaTime()
 
-#define KEY_NONE(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::NONE
-#define KEY_TAP(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::TAP
-#define KEY_HOLD(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::HOLD
-#define KEY_AWAY(key) CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::AWAY
+#define KEY_NONE(key)	CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::NONE
+#define KEY_TAP(key)	CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::TAP
+#define KEY_HOLD(key)	CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::HOLD
+#define KEY_AWAY(key)	CInputManager::GetInstance()->GetKeyState(key) == KEY_STATE::AWAY
+#define CURSOR			CInputManager::GetInstance()->GetCursor()
 
-#define PI 3.1415926535f
+#define PI				3.1415926535f
 
 enum class PEN_TYPE
 {

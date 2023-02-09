@@ -7,6 +7,7 @@
 #include "AssetManager.h"
 #include "CollisionManager.h"
 #include "EventManager.h"
+#include "Camera.h"
 
 #include "Object.h"
 
@@ -80,6 +81,7 @@ void CCore::AdvanceFrame()
 	// 매니저 업데이트
 	CTimeManager::GetInstance()->Update();
 	CInputManager::GetInstance()->Update();
+	CCamera::GetInstance()->Update();
 	CSceneManager::GetInstance()->Update();
 	CCollisionManager::GetInstance()->Update();
 

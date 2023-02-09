@@ -2,6 +2,7 @@
 #include "Animation.h"
 
 #include "TimeManager.h"
+#include "Camera.h"
 
 #include "Object.h"
 
@@ -105,6 +106,7 @@ void CAnimation::Render(HDC hDC)
 	Vec2 position = owner->GetPosition();
 
 	position += m_frames[m_frameIndex].m_offset;
+	position = CCamera::GetInstance()->WorldToScreen(position);
 
 	TransparentBlt(hDC,
 		(int)(position.m_x - 0.5f * m_frames[m_frameIndex].m_sliceSize.m_x),

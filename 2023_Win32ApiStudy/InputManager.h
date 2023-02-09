@@ -4,6 +4,7 @@ enum class KEY
 {
 	UP, DOWN, LEFT, RIGHT, ALT, CTRL, SHIFT, SPACE, ENTER, ESC,
 	A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+	LBUTTON, RBUTTON,
 
 	COUNT
 };
@@ -31,15 +32,16 @@ class CInputManager
 	SINGLETON(CInputManager);
 
 private:
-	// 가상 키 값은 KEY의 순서와 일치해야 한다.
-	int     m_virtualKey[(int)KEY::COUNT];
-
+	int     m_virtualKey[(int)KEY::COUNT]; // 가상 키 값은 KEY의 순서와 일치해야 한다.
 	KeyInfo m_keyInfo[(int)KEY::COUNT];
+	
+	Vec2    m_cursor;
 
 public:
 	void Init();
 
 	KEY_STATE GetKeyState(KEY key);
+	const Vec2& GetCursor();
 
 	void Update();
 };

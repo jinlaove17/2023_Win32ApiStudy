@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "InputManager.h"
 
+#include "Core.h"
+
 CInputManager::CInputManager() :
-	m_virtualKey{ VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_MENU, VK_CONTROL, VK_LSHIFT, VK_SPACE, VK_RETURN, VK_ESCAPE, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' },
-	m_keyInfo{}
+	m_virtualKey{ VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_MENU, VK_CONTROL, VK_LSHIFT, VK_SPACE, VK_RETURN, VK_ESCAPE, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', VK_LBUTTON, VK_RBUTTON },
+	m_keyInfo{},
+	m_cursor()
 {
 }
 
@@ -23,6 +26,11 @@ void CInputManager::Init()
 KEY_STATE CInputManager::GetKeyState(KEY key)
 {
 	return m_keyInfo[(int)key].m_state;
+}
+
+const Vec2& CInputManager::GetCursor()
+{
+	return m_cursor;
 }
 
 void CInputManager::Update()
@@ -84,4 +92,15 @@ void CInputManager::Update()
 			m_keyInfo[i].m_isPressed = false;
 		}
 	}
+
+	// 마우스 커서의 위치 계산
+	POINT point = {};
+
+	// 이 함수는 윈도우 전체 영역을 기준으로 커서의 위치를 계산한다.
+	GetCursorPos(&point);
+	
+	// 스크린 좌표를 클라이언트 기준 좌표로 계산한다.
+	ScreenToClient(CCore::GetInstance()->GetHwnd(), &point);
+
+	m_cursor = Vec2(point.x, point.y);
 }

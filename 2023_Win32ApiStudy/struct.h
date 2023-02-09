@@ -116,14 +116,21 @@ public:
 		return Vec2(m_x - other.m_x, m_y - other.m_y);
 	}
 
-	Vec2 operator * (int i)
+	Vec2 operator *(int i)
 	{
 		return Vec2(i * m_x, i * m_y);
 	}
 
-	Vec2 operator * (float f)
+	Vec2 operator *(float f)
 	{
 		return Vec2(f * m_x, f * m_y);
+	}
+
+	Vec2 operator /(float f)
+	{
+		assert(f != 0.0f);
+
+		return Vec2(m_x / f, m_y / f);
 	}
 
 	float Length()
