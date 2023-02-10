@@ -132,6 +132,9 @@
     <ClInclude Include="Camera.h">
       <Filter>헤더 파일\02. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>헤더 파일\03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -202,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>소스 파일\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>소스 파일\03. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

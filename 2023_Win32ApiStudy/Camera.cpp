@@ -60,28 +60,28 @@ void CCamera::Update()
 		}
 		else
 		{
-			m_lookAt = m_target->GetPosition();
+			m_finalLookAt = m_target->GetPosition();
 		}
 	}
 
 	if (KEY_HOLD(KEY::UP))
 	{
-		m_lookAt.m_y -= 600.0f * DT;
+		m_finalLookAt.m_y -= 600.0f * DT;
 	}
 
 	if (KEY_HOLD(KEY::DOWN))
 	{
-		m_lookAt.m_y += 600.0f * DT;
+		m_finalLookAt.m_y += 600.0f * DT;
 	}
 
 	if (KEY_HOLD(KEY::LEFT))
 	{
-		m_lookAt.m_x -= 600.0f * DT;
+		m_finalLookAt.m_x -= 600.0f * DT;
 	}
 
 	if (KEY_HOLD(KEY::RIGHT))
 	{
-		m_lookAt.m_x += 600.0f * DT;
+		m_finalLookAt.m_x += 600.0f * DT;
 	}
 
 	Vec2 shift = m_finalLookAt - m_lookAt;

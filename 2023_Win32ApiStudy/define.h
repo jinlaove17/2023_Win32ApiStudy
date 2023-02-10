@@ -30,6 +30,8 @@
 
 #define PI				3.1415926535f
 
+#define TILE_SIZE		64
+
 enum class PEN_TYPE
 {
 	RED,
@@ -59,6 +61,7 @@ enum class SCENE_TYPE
 enum class GROUP_TYPE
 {
 	DEFAULT,
+	TILE,
 	MONSTER,
 	MONSTER_PROJ,
 	PLAYER_PROJ,
