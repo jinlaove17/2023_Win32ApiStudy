@@ -151,6 +151,7 @@
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="PanelUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
@@ -163,6 +164,8 @@
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="ToolScene.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -180,6 +183,7 @@
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="PanelUI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -189,6 +193,8 @@
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="ToolScene.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_Win32ApiStudy.rc" />

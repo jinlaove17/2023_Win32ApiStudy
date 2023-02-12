@@ -47,5 +47,5 @@ void CMissile::Render(HDC hDC)
 		(int)(position.m_x + 0.5f * scale.m_x),
 		(int)(position.m_y + 0.5f * scale.m_y));
 
-	ComponentRender(hDC);
+	RenderComponent(hDC);
 }

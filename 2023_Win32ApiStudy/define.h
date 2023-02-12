@@ -66,6 +66,7 @@ enum class GROUP_TYPE
 	MONSTER_PROJ,
 	PLAYER_PROJ,
 	PLAYER,
+	UI,
 
 	COUNT
 };

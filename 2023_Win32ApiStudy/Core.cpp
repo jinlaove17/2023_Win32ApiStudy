@@ -7,6 +7,7 @@
 #include "AssetManager.h"
 #include "CollisionManager.h"
 #include "EventManager.h"
+#include "UIManager.h"
 #include "Camera.h"
 
 #include "Object.h"
@@ -84,6 +85,7 @@ void CCore::AdvanceFrame()
 	CCamera::GetInstance()->Update();
 	CSceneManager::GetInstance()->Update();
 	CCollisionManager::GetInstance()->Update();
+	CUIManager::GetInstance()->Update();
 
 	// 화면 클리어
 	Rectangle(m_hMemDC, -1, -1, m_resolution.cx + 1, m_resolution.cy + 1);

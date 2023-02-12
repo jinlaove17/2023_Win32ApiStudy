@@ -11,10 +11,13 @@ CObject::CObject() :
 	m_isDeleted(),
 	m_name(),
 	m_position(),
+	m_localPosition(),
 	m_scale(),
 	m_texture(),
 	m_collider(),
-	m_animator()
+	m_animator(),
+	m_parent(),
+	m_children()
 {
 }
 
@@ -23,10 +26,13 @@ CObject::CObject(const CObject& rhs) :
 	m_isDeleted(),
 	m_name(rhs.m_name),
 	m_position(rhs.m_position),
+	m_localPosition(rhs.m_localPosition),
 	m_scale(rhs.m_scale),
 	m_texture(rhs.m_texture),
 	m_collider(),
-	m_animator()
+	m_animator(),
+	m_parent(rhs.m_parent),
+	m_children()
 {
 	if (rhs.m_collider != nullptr)
 	{
@@ -38,6 +44,16 @@ CObject::CObject(const CObject& rhs) :
 	{
 		m_animator = new CAnimator(*rhs.m_animator);
 		m_animator->m_owner = this;
+	}
+
+	if (!rhs.m_children.empty())
+	{
+		m_children.reserve(rhs.m_children.size());
+
+		for (int i = 0; i < rhs.m_children.size(); ++i)
+		{
+			m_children.push_back(rhs.m_children[i]->Clone());
+		}
 	}
 }
 
@@ -54,6 +70,8 @@ CObject::~CObject()
 		delete m_animator;
 		m_animator = nullptr;
 	}
+
+	SafeDelete(m_children);
 }
 
 void CObject::SetActive(bool isActive)
@@ -94,6 +112,16 @@ void CObject::SetPosition(const Vec2& position)
 const Vec2& CObject::GetPosition()
 {
 	return m_position;
+}
+
+void CObject::SetLocalPosition(const Vec2& localPosition)
+{
+	m_localPosition = localPosition;
+}
+
+const Vec2& CObject::GetLocalPosition()
+{
+	return m_localPosition;
 }
 
 void CObject::SetScale(const Vec2& scale)
@@ -144,6 +172,25 @@ CAnimator* CObject::GetAnimator()
 	return m_animator;
 }
 
+CObject* CObject::GetParent()
+{
+	return m_parent;
+}
+
+void CObject::AddChild(CObject* object)
+{
+	if (object != nullptr)
+	{
+		m_children.push_back(object);
+		object->m_parent = this;
+	}
+}
+
+const vector<CObject*>& CObject::GetChildren()
+{
+	return m_children;
+}
+
 void CObject::OnCollisionEnter(CCollider* collidedCollider)
 {
 }
@@ -156,8 +203,24 @@ void CObject::OnCollisionExit(CCollider* collidedCollider)
 {
 }
 
+void CObject::UpdateChildren()
+{
+	for (int i = 0; i < m_children.size(); ++i)
+	{
+		if (m_children[i]->m_isActive && !m_children[i]->m_isDeleted)
+		{
+			m_children[i]->Update();
+		}
+	}
+}
+
 void CObject::LateUpdate()
 {
+	if (m_parent)
+	{
+		m_position = m_parent->GetPosition() + m_localPosition;
+	}
+
 	if (m_collider != nullptr)
 	{
 		m_collider->Update();
@@ -166,6 +229,19 @@ void CObject::LateUpdate()
 	if (m_animator != nullptr)
 	{
 		m_animator->Update();
+	}
+
+	LateUpdateChildren();
+}
+
+void CObject::LateUpdateChildren()
+{
+	for (int i = 0; i < m_children.size(); ++i)
+	{
+		if (m_children[i]->m_isActive && !m_children[i]->m_isDeleted)
+		{
+			m_children[i]->LateUpdate();
+		}
 	}
 }
 
@@ -179,10 +255,11 @@ void CObject::Render(HDC hDC)
 		(int)(renderPosition.m_x + 0.5f * m_scale.m_x),
 		(int)(renderPosition.m_y + 0.5f * m_scale.m_y));
 
-	ComponentRender(hDC);
+	RenderComponent(hDC);
+	RenderChildren(hDC);
 }
 
-void CObject::ComponentRender(HDC hDC)
+void CObject::RenderComponent(HDC hDC)
 {
 	if (m_collider != nullptr)
 	{
@@ -192,5 +269,16 @@ void CObject::ComponentRender(HDC hDC)
 	if (m_animator != nullptr)
 	{
 		m_animator->Render(hDC);
+	}
+}
+
+void CObject::RenderChildren(HDC hDC)
+{
+	for (int i = 0; i < m_children.size(); ++i)
+	{
+		if (m_children[i]->m_isActive && !m_children[i]->m_isDeleted)
+		{
+			m_children[i]->Render(hDC);
+		}
 	}
 }

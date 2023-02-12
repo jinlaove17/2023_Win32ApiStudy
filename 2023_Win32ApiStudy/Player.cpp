@@ -73,16 +73,7 @@ void CPlayer::Update()
 
 void CPlayer::Render(HDC hDC)
 {
-	//const Vec2& position = GetPosition();
-
-	//CTexture* texture = GetTexture();
-	//int width = texture->GetWidth();
-	//int height = texture->GetHeight();
-
-	////BitBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, SRCCOPY);
-	//TransparentBlt(hDC, (int)(position.m_x - 0.5f * width), (int)(position.m_y - 0.5f * height), width, height, texture->GetDC(), 0, 0, width, height, RGB(255, 0, 255));
-
-	ComponentRender(hDC);
+	RenderComponent(hDC);
 }
 
 void CPlayer::CreateMissile()

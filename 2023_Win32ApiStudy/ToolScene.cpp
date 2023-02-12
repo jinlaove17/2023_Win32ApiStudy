@@ -13,6 +13,7 @@
 #include "AssetManager.h"
 
 #include "Tile.h"
+#include "UI.h"
 
 CToolScene::CToolScene() :
 	m_tileXCount(),
@@ -32,6 +33,20 @@ void CToolScene::Enter()
 	// 초기 위치는 해상도의 정중앙이다.
 	CCamera::GetInstance()->SetFinalLookAt(resolution / 2.0f);
 	CCamera::GetInstance()->SetTarget(nullptr);
+
+	// 오브젝트 생성
+	CUI* ui = new CUI();
+
+	ui->SetScale(Vec2(500.0f, 300.0f));
+	ui->SetPosition(Vec2(resolution.m_x - ui->GetScale().m_x, 0.0f));
+
+	AddObject(GROUP_TYPE::UI, ui);
+
+	//CUI* childUI = new CUI();
+
+	//childUI->SetScale(Vec2(100.0f, 40.0f));
+	//childUI->SetLocalPosition(Vec2(0.0f, 0.0f));
+	//ui->AddChild(childUI);
 }
 
 void CToolScene::Exit()

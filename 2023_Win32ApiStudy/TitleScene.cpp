@@ -36,7 +36,7 @@ void CTitleScene::Enter()
 
 	// 초기 위치는 해상도의 정중앙이다.
 	CCamera::GetInstance()->SetFinalLookAt(resolution / 2.0f);
-	CCamera::GetInstance()->SetTarget(object);
+	//CCamera::GetInstance()->SetTarget(object);
 
 	float term = (resolution.m_x - 2 * 200.0f) / 4.0f;
 

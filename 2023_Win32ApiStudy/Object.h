@@ -7,17 +7,21 @@ class CAnimator;
 class CObject
 {
 private:
-	bool	   m_isActive;
-	bool       m_isDeleted;
+	bool			 m_isActive;
+	bool			 m_isDeleted;
+					 
+	wstring			 m_name;
+					 
+	Vec2			 m_position;
+	Vec2			 m_localPosition;
+	Vec2			 m_scale;
+					 
+	CTexture*		 m_texture;
+	CCollider*		 m_collider;
+	CAnimator*		 m_animator;
 
-	wstring    m_name;
-
-	Vec2       m_position;
-	Vec2       m_scale;
-			   
-	CTexture*  m_texture;
-	CCollider* m_collider;
-	CAnimator* m_animator;
+	CObject*         m_parent;
+	vector<CObject*> m_children;
 
 public:
 	CObject();
@@ -38,6 +42,9 @@ public:
 	void SetPosition(const Vec2& position);
 	const Vec2& GetPosition();
 
+	void SetLocalPosition(const Vec2& localPosition);
+	const Vec2& GetLocalPosition();
+
 	void SetScale(const Vec2& scale);
 	const Vec2& GetScale();
 
@@ -50,13 +57,24 @@ public:
 	void CreateAnimator();
 	CAnimator* GetAnimator();
 
+	CObject* GetParent();
+
+	void AddChild(CObject* object);
+	const vector<CObject*>& GetChildren();
+
 	virtual void OnCollisionEnter(CCollider* collidedCollider); // 충돌 진입 시 호출
 	virtual void OnCollision(CCollider* collidedCollider);      // 충돌 중일 시 호출
 	virtual void OnCollisionExit(CCollider* collidedCollider);  // 충돌 종료 시 호출
 
 	virtual void Update() = 0;
-	virtual void LateUpdate() final; // final: 자식 객체에서 더이상 override 할 수 없도록 제한한다.
+	virtual void LateUpdate();
 
 	virtual void Render(HDC hDC);
-	void ComponentRender(HDC hDC);
+
+protected:
+	void UpdateChildren();
+	void LateUpdateChildren();
+
+	void RenderComponent(HDC hDC);
+	void RenderChildren(HDC hDC);
 };
