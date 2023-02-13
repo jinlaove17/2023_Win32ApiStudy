@@ -125,11 +125,24 @@ void CUI::Render(HDC hDC)
 		position = CCamera::GetInstance()->WorldToScreen(position);
 	}
 
-	Rectangle(hDC,
-		(int)(position.m_x),
-		(int)(position.m_y),
-		(int)(position.m_x + scale.m_x),
-		(int)(position.m_y + scale.m_y));
+	if (m_isPressed)
+	{
+		GDIObject gdiObject(hDC, PEN_TYPE::RED);
+
+		Rectangle(hDC,
+			(int)(position.m_x),
+			(int)(position.m_y),
+			(int)(position.m_x + scale.m_x),
+			(int)(position.m_y + scale.m_y));
+	}
+	else
+	{
+		Rectangle(hDC,
+			(int)(position.m_x),
+			(int)(position.m_y),
+			(int)(position.m_x + scale.m_x),
+			(int)(position.m_y + scale.m_y));
+	}
 
 	RenderChildren(hDC);
 }

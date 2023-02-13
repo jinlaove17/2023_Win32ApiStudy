@@ -52,7 +52,7 @@ CObject::CObject(const CObject& rhs) :
 
 		for (int i = 0; i < rhs.m_children.size(); ++i)
 		{
-			m_children.push_back(rhs.m_children[i]->Clone());
+			AddChild(rhs.m_children[i]->Clone());
 		}
 	}
 }

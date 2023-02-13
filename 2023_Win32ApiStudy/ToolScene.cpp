@@ -13,7 +13,8 @@
 #include "AssetManager.h"
 
 #include "Tile.h"
-#include "UI.h"
+#include "PanelUI.h"
+#include "ButtonUI.h"
 
 CToolScene::CToolScene() :
 	m_tileXCount(),
@@ -35,18 +36,24 @@ void CToolScene::Enter()
 	CCamera::GetInstance()->SetTarget(nullptr);
 
 	// 오브젝트 생성
-	CUI* ui = new CUI();
+	CUI* panelUI = new CPanelUI();
 
-	ui->SetScale(Vec2(500.0f, 300.0f));
-	ui->SetPosition(Vec2(resolution.m_x - ui->GetScale().m_x, 0.0f));
+	panelUI->SetScale(Vec2(500.0f, 300.0f));
+	panelUI->SetPosition(Vec2(resolution.m_x - panelUI->GetScale().m_x, 0.0f));
 
-	AddObject(GROUP_TYPE::UI, ui);
+	AddObject(GROUP_TYPE::UI, panelUI);
 
-	//CUI* childUI = new CUI();
+	CUI* buttonUI = new CButtonUI();
 
-	//childUI->SetScale(Vec2(100.0f, 40.0f));
-	//childUI->SetLocalPosition(Vec2(0.0f, 0.0f));
-	//ui->AddChild(childUI);
+	buttonUI->SetScale(Vec2(100.0f, 40.0f));
+	buttonUI->SetLocalPosition(Vec2(0.0f, 0.0f));
+	panelUI->AddChild(buttonUI);
+
+	panelUI = panelUI->Clone();
+	panelUI->SetScale(Vec2(500.0f, 300.0f));
+	panelUI->SetPosition(Vec2(resolution.m_x - panelUI->GetScale().m_x, 400.0f));
+
+	AddObject(GROUP_TYPE::UI, panelUI);
 }
 
 void CToolScene::Exit()

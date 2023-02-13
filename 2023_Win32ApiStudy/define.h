@@ -1,5 +1,11 @@
 #pragma once
 
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+
 // 아래와 같은 매크로를 사용할 때는 연산자 우선 순위에 유의하자!
 // #define ADD(a, b) a + b
 // 아래 식의 결과 값은 500이 아닌 230이다.

@@ -19,6 +19,7 @@
 #include <tchar.h>
 
 // C++ 헤더 파일
+#include <iostream>
 #include <cmath>
 #include <cassert>
 #include <string>
