@@ -14,6 +14,14 @@ CUI::CUI() :
 {
 }
 
+CUI::CUI(const CUI& rhs) :
+	CObject(rhs),
+	m_isFixed(rhs.m_isFixed),
+	m_isPressed(),
+	m_isCursorOver()
+{
+}
+
 CUI::~CUI()
 {
 }

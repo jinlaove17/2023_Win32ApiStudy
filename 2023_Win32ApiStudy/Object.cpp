@@ -247,13 +247,13 @@ void CObject::LateUpdateChildren()
 
 void CObject::Render(HDC hDC)
 {
-	Vec2 renderPosition = CCamera::GetInstance()->WorldToScreen(m_position);
+	Vec2 position = CCamera::GetInstance()->WorldToScreen(m_position);
 
 	Rectangle(hDC,
-		(int)(renderPosition.m_x - 0.5f * m_scale.m_x),
-		(int)(renderPosition.m_y - 0.5f * m_scale.m_y),
-		(int)(renderPosition.m_x + 0.5f * m_scale.m_x),
-		(int)(renderPosition.m_y + 0.5f * m_scale.m_y));
+		(int)(position.m_x - 0.5f * m_scale.m_x),
+		(int)(position.m_y - 0.5f * m_scale.m_y),
+		(int)(position.m_x + 0.5f * m_scale.m_x),
+		(int)(position.m_y + 0.5f * m_scale.m_y));
 
 	RenderComponent(hDC);
 	RenderChildren(hDC);

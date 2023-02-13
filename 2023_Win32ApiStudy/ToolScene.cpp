@@ -7,6 +7,7 @@
 
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 #include "EventManager.h"
 #include "Camera.h"
 
@@ -43,10 +44,11 @@ void CToolScene::Enter()
 
 	AddObject(GROUP_TYPE::UI, panelUI);
 
-	CUI* buttonUI = new CButtonUI();
+	CButtonUI* buttonUI = new CButtonUI();
 
 	buttonUI->SetScale(Vec2(100.0f, 40.0f));
 	buttonUI->SetLocalPosition(Vec2(0.0f, 0.0f));
+	buttonUI->SetEvent([]() { CEventManager::GetInstance()->ChangeScene(SCENE_TYPE::TITLE); });
 	panelUI->AddChild(buttonUI);
 
 	panelUI = panelUI->Clone();
@@ -58,6 +60,12 @@ void CToolScene::Enter()
 
 void CToolScene::Exit()
 {
+	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
+	{
+		DeleteGroupObject((GROUP_TYPE)i);
+	}
+
+	CCollisionManager::GetInstance()->ResetCollisionGroup();
 }
 
 void CToolScene::ArrangeTiles(int tileXCount, int tileYCount)

@@ -38,6 +38,8 @@
 
 #define TILE_SIZE		64
 
+using Event = function<void()>;
+
 enum class PEN_TYPE
 {
 	RED,

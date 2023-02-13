@@ -1,7 +1,5 @@
 #pragma once
 
-using Event = function<void()>;
-
 class CObject;
 
 class CEventManager

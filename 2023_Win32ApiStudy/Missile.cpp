@@ -2,6 +2,7 @@
 #include "Missile.h"
 
 #include "TimeManager.h"
+#include "Camera.h"
 
 #include "Collider.h"
 
@@ -38,7 +39,7 @@ void CMissile::Update()
 
 void CMissile::Render(HDC hDC)
 {
-	const Vec2& position = GetPosition();
+	Vec2 position = CCamera::GetInstance()->WorldToScreen(GetPosition());
 	const Vec2& scale = GetScale();
 
 	Ellipse(hDC,

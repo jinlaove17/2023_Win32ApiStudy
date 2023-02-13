@@ -4,12 +4,15 @@
 class CButtonUI : public CUI
 {
 private:
+	Event m_event;
 
 public:
 	CButtonUI();
 	virtual ~CButtonUI();
 
 	CLONE(CButtonUI);
+
+	void SetEvent(Event event);
 
 	virtual void OnCursorOver();		    // 현재 커서의 위치가 이 UI 위에 있을 때 호출
 	virtual void OnCursorLeftButtonDown();  // 현재 커서의 위치가 이 UI 위에 있고, 왼쪽 마우스 버튼이 눌렸을 때 호출

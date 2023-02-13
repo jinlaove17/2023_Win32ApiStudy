@@ -2,6 +2,7 @@
 #include "EventManager.h"
 
 #include "SceneManager.h"
+#include "UIManager.h"
 
 #include "Scene.h"
 
@@ -19,15 +20,17 @@ CEventManager::~CEventManager()
 
 void CEventManager::CreateObject(GROUP_TYPE group, CObject* object)
 {
-	m_eventQueue.push([group, object]()
-		{ 
+	m_eventQueue.push(
+		[=]()
+		{
 			CSceneManager::GetInstance()->GetCurrentScene()->AddObject(group, object);
 		});
 }
 
 void CEventManager::DeleteObject(CObject* object)
 {
-	m_eventQueue.push([object, this]()
+	m_eventQueue.push(
+		[=]()
 		{
 			object->SetActive(false);
 			object->SetDeleted(true);
@@ -38,8 +41,16 @@ void CEventManager::DeleteObject(CObject* object)
 
 void CEventManager::ChangeScene(SCENE_TYPE scene)
 {
-	m_eventQueue.push([scene]()
+	m_eventQueue.push(
+		[=]()
 		{
+			// 씬을 변경하는 이벤트가 실행되면, 이후 이벤트는 처리할 필요가 없으므로 큐의 사이즈를 1로 만든다.(곧바로 Update에서 pop() 될 것이기 때문에)
+			while (m_eventQueue.size() > 1)
+			{
+				m_eventQueue.pop();
+			}
+
+			CUIManager::GetInstance()->SetFocusedUI(nullptr);
 			CSceneManager::GetInstance()->ChangeScene(scene);
 		});
 }

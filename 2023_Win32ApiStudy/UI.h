@@ -10,9 +10,10 @@ private:
 
 public:
 	CUI();
+	CUI(const CUI& rhs);
 	virtual ~CUI();
 
-	CLONE(CUI);
+	virtual CUI* Clone() = 0;
 
 	void SetFixed(bool isFixed);
 	bool IsFixed();
