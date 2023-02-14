@@ -27,6 +27,119 @@ CToolScene::~CToolScene()
 {
 }
 
+void CToolScene::ArrangeTiles(int tileXCount, int tileYCount)
+{
+	// 타일 생선 전, 기존에 배치된 타일들을 제거한다.
+	DeleteGroupObject(GROUP_TYPE::TILE);
+
+	m_tileXCount = tileXCount;
+	m_tileYCount = tileYCount;
+
+	// 타일 생성
+	CTexture* texture = CAssetManager::GetInstance()->LoadTexture(L"TileSet.bmp", L"TileSet");
+
+	for (int i = 0; i < m_tileYCount; ++i)
+	{
+		for (int j = 0; j < m_tileXCount; ++j)
+		{
+			CTile* tile = new CTile();
+
+			tile->SetPosition(Vec2(TILE_SIZE * j, TILE_SIZE * i));
+			tile->SetScale(Vec2(TILE_SIZE, TILE_SIZE));
+			tile->SetTexture(texture);
+
+			AddObject(GROUP_TYPE::TILE, tile);
+		}
+	}
+}
+
+void CToolScene::SaveData()
+{
+	wstring assetPath = CAssetManager::GetInstance()->GetAssetPath();
+	OPENFILENAME ofn = {};
+	wchar_t filePath[256] = {};
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = CCore::GetInstance()->GetHwnd();
+	ofn.lpstrFile = filePath;
+	ofn.nMaxFile = sizeof(filePath);
+	ofn.lpstrFilter = L"all\0*.*\0tile\0*.tile\0";
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFileTitle = nullptr;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = wstring(assetPath + L"Tile\\").c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	// 저장 버튼을 누른 경우 true를 반환한다.
+	if (GetSaveFileName(&ofn))
+	{
+		setlocale(LC_ALL, "");
+
+		ofstream out(filePath, ios::binary);
+
+		assert(out.is_open());
+
+		// 데이터 저장
+		const vector<CObject*>& tiles = GetGroupObject(GROUP_TYPE::TILE);
+
+		out.write((const char*)&m_tileXCount, sizeof(int));
+		out.write((const char*)&m_tileYCount, sizeof(int));
+
+		for (int i = 0; i < tiles.size(); ++i)
+		{
+			CTile* tile = (CTile*)tiles[i];
+			int tileIndex = tile->GetIndex();
+
+			out.write((const char*)&tileIndex, sizeof(int));
+		}
+	}
+}
+
+void CToolScene::LoadData()
+{
+	wstring assetPath = CAssetManager::GetInstance()->GetAssetPath();
+	OPENFILENAME ofn = {};
+	wchar_t filePath[256] = {};
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = CCore::GetInstance()->GetHwnd();
+	ofn.lpstrFile = filePath;
+	ofn.nMaxFile = sizeof(filePath);
+	ofn.lpstrFilter = L"all\0*.*\0tile\0*.tile\0";
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFileTitle = nullptr;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = wstring(assetPath + L"Tile\\").c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	// 열기 버튼을 누른 경우 true를 반환한다.
+	if (GetOpenFileName(&ofn))
+	{
+		ifstream in(filePath, ios::binary);
+
+		assert(in.is_open());
+
+		// 데이터 로드
+		in.read((char*)&m_tileXCount, sizeof(int));
+		in.read((char*)&m_tileYCount, sizeof(int));
+
+		// 읽어온 수만큼 타일을 배치한다.
+		ArrangeTiles(m_tileXCount, m_tileYCount);
+
+		// 배치한 타일의 인덱스를 읽어와 설정한다.
+		const vector<CObject*>& tiles = GetGroupObject(GROUP_TYPE::TILE);
+
+		for (int i = 0; i < tiles.size(); ++i)
+		{
+			CTile* tile = (CTile*)tiles[i];
+			int tileIndex = 0;
+
+			in.read((char*)&tileIndex, sizeof(int));
+			tile->SetIndex(tileIndex);
+		}
+	}
+}
+
 void CToolScene::Enter()
 {
 	// 카메라 포커싱 설정
@@ -68,29 +181,6 @@ void CToolScene::Exit()
 	CCollisionManager::GetInstance()->ResetCollisionGroup();
 }
 
-void CToolScene::ArrangeTiles(int tileXCount, int tileYCount)
-{
-	m_tileXCount = tileXCount;
-	m_tileYCount = tileYCount;
-
-	// 타일 생성
-	CTexture* texture = CAssetManager::GetInstance()->LoadTexture(L"TileSet.bmp", L"TileSet");
-
-	for (int i = 0; i < m_tileYCount; ++i)
-	{
-		for (int j = 0; j < m_tileXCount; ++j)
-		{
-			CTile* tile = new CTile();
-
-			tile->SetPosition(Vec2(TILE_SIZE * j, TILE_SIZE * i));
-			tile->SetScale(Vec2(TILE_SIZE, TILE_SIZE));
-			tile->SetTexture(texture);
-			
-			AddObject(GROUP_TYPE::TILE, tile);
-		}
-	}
-}
-
 void CToolScene::Update()
 {
 	CScene::Update();
@@ -111,6 +201,16 @@ void CToolScene::Update()
 		CTile* tile = (CTile*)tiles[m_tileXCount * row + col];
 
 		tile->SetIndex(tile->GetIndex() + 1);
+	}
+
+	if (KEY_TAP(KEY::O))
+	{
+		SaveData();
+	}
+
+	if (KEY_TAP(KEY::P))
+	{
+		LoadData();
 	}
 }
 
@@ -138,8 +238,6 @@ INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
 				assert(currentScene != nullptr);
 
-				// 타일 생선 전, 기존에 배치된 타일들을 제거한다.
-				currentScene->DeleteGroupObject(GROUP_TYPE::TILE);
 				currentScene->ArrangeTiles(xCount, yCount);
 			}
 

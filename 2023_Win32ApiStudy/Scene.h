@@ -20,6 +20,9 @@ public:
 	const vector<CObject*>& GetGroupObject(GROUP_TYPE group);
 	void DeleteGroupObject(GROUP_TYPE group);
 
+	virtual void SaveData() = 0;
+	virtual void LoadData() = 0;
+
 	virtual void Enter() = 0;
 	virtual void Exit() = 0;
 

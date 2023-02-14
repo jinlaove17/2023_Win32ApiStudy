@@ -14,6 +14,8 @@ private:
 public:
 	void Init();
 
+	wstring GetAssetPath();
+
 	CTexture* LoadTexture(const wstring& fileName, const wstring& key);
 	CTexture* FindTexture(const wstring& key);
 };

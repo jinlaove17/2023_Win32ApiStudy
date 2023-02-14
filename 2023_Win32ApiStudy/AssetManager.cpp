@@ -36,6 +36,11 @@ void CAssetManager::Init()
 	wcscat_s(m_assetPath, 255, L"\\Release\\Asset\\");
 }
 
+wstring CAssetManager::GetAssetPath()
+{
+	return wstring(m_assetPath);
+}
+
 CTexture* CAssetManager::LoadTexture(const wstring& fileName, const wstring& key)
 {
 	CTexture* texture = FindTexture(key);
@@ -44,7 +49,7 @@ CTexture* CAssetManager::LoadTexture(const wstring& fileName, const wstring& key
 	{
 		wstring filePath = m_assetPath;
 
-		filePath += L"texture\\" + fileName;
+		filePath += L"Texture\\" + fileName;
 
 		texture = new CTexture();
 		texture->SetName(key);

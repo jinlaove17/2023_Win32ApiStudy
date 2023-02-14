@@ -11,10 +11,13 @@ public:
 	CToolScene();
 	virtual ~CToolScene();
 
-	virtual void Enter();
-	virtual void Exit();
-
 	void ArrangeTiles(int tileXCount, int tileYCount);
 
+	virtual void SaveData();
+	virtual void LoadData();
+
+	virtual void Enter();
+	virtual void Exit();
+	
 	virtual void Update();
 };

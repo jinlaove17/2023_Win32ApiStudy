@@ -17,9 +17,11 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <commdlg.h>
 
 // C++ 헤더 파일
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <cassert>
 #include <string>

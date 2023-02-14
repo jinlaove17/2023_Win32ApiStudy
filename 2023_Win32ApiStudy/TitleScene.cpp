@@ -20,6 +20,14 @@ CTitleScene::~CTitleScene()
 {
 }
 
+void CTitleScene::SaveData()
+{
+}
+
+void CTitleScene::LoadData()
+{
+}
+
 void CTitleScene::Enter()
 {
 	// 오브젝트 추가
