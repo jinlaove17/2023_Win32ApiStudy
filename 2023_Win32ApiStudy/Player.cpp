@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "AssetManager.h"
 #include "EventManager.h"
+#include "Camera.h"
 
 #include "Texture.h"
 #include "Collider.h"
@@ -73,7 +74,10 @@ void CPlayer::Update()
 
 void CPlayer::Render(HDC hDC)
 {
-	RenderComponent(hDC);
+	if (CCamera::GetInstance()->IsVisible(this))
+	{
+		RenderComponent(hDC);
+	}
 }
 
 void CPlayer::CreateMissile()

@@ -62,6 +62,21 @@ Vec2 CCamera::ScreenToWorld(const Vec2& screenPosition)
 	return screenPosition + m_diff;
 }
 
+bool CCamera::IsVisible(CObject* object)
+{
+	const SIZE& resolution = CCore::GetInstance()->GetResolution();
+	const Vec2& position = object->GetPosition();
+	const Vec2& scale = object->GetScale();
+
+	if ((m_lookAt.m_x - resolution.cx <= position.m_x - 0.5f * scale.m_x) && (position.m_x + 0.5f * scale.m_x <= m_lookAt.m_x + resolution.cx) &&
+		(m_lookAt.m_y - resolution.cy <= position.m_y - 0.5f * scale.m_y) && (position.m_y + 0.5f * scale.m_y <= m_lookAt.m_y + resolution.cy))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 void CCamera::AddEffect(CAM_EFFECT effect, float duration)
 {
 	if (duration <= 0.0f)

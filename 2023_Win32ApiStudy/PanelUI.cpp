@@ -37,13 +37,3 @@ void CPanelUI::OnCursorLeftButtonUp()
 void CPanelUI::OnCursorLeftButtonClick()
 {
 }
-
-void CPanelUI::Update()
-{
-	CUI::Update();
-}
-
-void CPanelUI::Render(HDC hDC)
-{
-	CUI::Render(hDC);
-}

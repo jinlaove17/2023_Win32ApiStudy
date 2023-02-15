@@ -45,6 +45,8 @@ public:
 	Vec2 WorldToScreen(const Vec2& worldPosition);
 	Vec2 ScreenToWorld(const Vec2& screenPosition);
 
+	bool IsVisible(CObject* object);
+
 	void AddEffect(CAM_EFFECT effect, float duration);
 
 	void Update();

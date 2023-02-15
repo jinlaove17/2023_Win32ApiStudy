@@ -40,19 +40,22 @@ void CTile::Update()
 
 void CTile::Render(HDC hDC)
 {
-	Vec2 position = CCamera::GetInstance()->WorldToScreen(GetPosition());
-	const Vec2& scale = GetScale();
+	if (CCamera::GetInstance()->IsVisible(this))
+	{
+		Vec2 position = CCamera::GetInstance()->WorldToScreen(GetPosition());
+		const Vec2& scale = GetScale();
 
-	CTexture* texture = GetTexture();
-	int xCount = (int)(texture->GetWidth() / scale.m_x);
+		CTexture* texture = GetTexture();
+		int xCount = (int)(texture->GetWidth() / scale.m_x);
 
-	BitBlt(hDC,
-		(int)(position.m_x),
-		(int)(position.m_y),
-		(int)(scale.m_x),
-		(int)(scale.m_y),
-		texture->GetDC(),
-		(int)(scale.m_x * (m_index % xCount)),
-		(int)(scale.m_y * (m_index / xCount)),
-		SRCCOPY);
+		BitBlt(hDC,
+			(int)(position.m_x),
+			(int)(position.m_y),
+			(int)(scale.m_x),
+			(int)(scale.m_y),
+			texture->GetDC(),
+			(int)(scale.m_x * (m_index % xCount)),
+			(int)(scale.m_y * (m_index / xCount)),
+			SRCCOPY);
+	}
 }

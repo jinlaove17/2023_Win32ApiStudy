@@ -127,10 +127,17 @@ void CUI::Render(HDC hDC)
 	Vec2 position = GetPosition();
 	const Vec2& scale = GetScale();
 
-	// 고정되지 않는 UI, 즉 카메라의 영향을 받지 않는 UI의 경우 위치를 월드 좌표 기준으로 변경시킨다.
+	// 고정되지 않는 UI, 즉 카메라의 영향을 받는 UI의 경우 위치를 월드 좌표 기준으로 변경시킨다.
 	if (!m_isFixed)
 	{
-		position = CCamera::GetInstance()->WorldToScreen(position);
+		if (CCamera::GetInstance()->IsVisible(this))
+		{
+			position = CCamera::GetInstance()->WorldToScreen(position);
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	if (m_isPressed)

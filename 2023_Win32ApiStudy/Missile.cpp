@@ -39,14 +39,17 @@ void CMissile::Update()
 
 void CMissile::Render(HDC hDC)
 {
-	Vec2 position = CCamera::GetInstance()->WorldToScreen(GetPosition());
-	const Vec2& scale = GetScale();
+	if (CCamera::GetInstance()->IsVisible(this))
+	{
+		Vec2 position = CCamera::GetInstance()->WorldToScreen(GetPosition());
+		const Vec2& scale = GetScale();
 
-	Ellipse(hDC,
-		(int)(position.m_x - 0.5f * scale.m_x),
-		(int)(position.m_y - 0.5f * scale.m_y),
-		(int)(position.m_x + 0.5f * scale.m_x),
-		(int)(position.m_y + 0.5f * scale.m_y));
+		Ellipse(hDC,
+			(int)(position.m_x - 0.5f * scale.m_x),
+			(int)(position.m_y - 0.5f * scale.m_y),
+			(int)(position.m_x + 0.5f * scale.m_x),
+			(int)(position.m_y + 0.5f * scale.m_y));
 
-	RenderComponent(hDC);
+		RenderComponent(hDC);
+	}
 }
