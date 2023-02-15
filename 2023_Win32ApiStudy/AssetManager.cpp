@@ -41,6 +41,22 @@ wstring CAssetManager::GetAssetPath()
 	return wstring(m_assetPath);
 }
 
+CTexture* CAssetManager::CreateTexture(const wstring& key, int width, int height)
+{
+	CTexture* texture = FindTexture(key);
+
+	if (texture == nullptr)
+	{
+		texture = new CTexture();
+		texture->Create(width, height);
+		texture->SetName(key);
+
+		m_textures.emplace(key, texture);
+	}
+
+	return texture;
+}
+
 CTexture* CAssetManager::LoadTexture(const wstring& fileName, const wstring& key)
 {
 	CTexture* texture = FindTexture(key);

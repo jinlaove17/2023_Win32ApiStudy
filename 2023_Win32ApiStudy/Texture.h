@@ -17,6 +17,7 @@ public:
 	virtual ~CTexture();
 
 public:
+	void Create(int width, int height);
 	void Load(const wstring& filePath);
 
 	HDC GetDC();

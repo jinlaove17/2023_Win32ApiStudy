@@ -57,6 +57,7 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 	CTimeManager::GetInstance()->Init();
 	CInputManager::GetInstance()->Init();
 	CAssetManager::GetInstance()->Init();
+	CCamera::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
 
 	return S_OK;
@@ -91,6 +92,7 @@ void CCore::AdvanceFrame()
 	Rectangle(m_hMemDC, -1, -1, m_resolution.cx + 1, m_resolution.cy + 1);
 
 	CSceneManager::GetInstance()->Render(m_hMemDC);
+	CCamera::GetInstance()->Render(m_hMemDC);
 
 	// m_hMemDC에 그려진 내용을 m_hDC로 복사한다.
 	BitBlt(m_hDC, 0, 0, m_resolution.cx, m_resolution.cy, m_hMemDC, 0, 0, SRCCOPY);

@@ -16,6 +16,24 @@ CTexture::~CTexture()
 	DeleteObject(m_hBitmap);
 }
 
+void CTexture::Create(int width, int height)
+{
+	HDC hDC = CCore::GetInstance()->GetDC();
+
+	m_hBitmap = CreateCompatibleBitmap(hDC, width, height);
+
+	// 불러온 비트맵의 가로 세로 길이
+	GetObject(m_hBitmap, sizeof(BITMAP), &m_bitmapInfo);
+
+	m_hDC = CreateCompatibleDC(hDC);
+
+	// 비트맵과 DC 연결
+	HBITMAP hOldBitmap = (HBITMAP)SelectObject(m_hDC, m_hBitmap);
+
+	// 기존 1 픽셀짜리 비트맵 삭제
+	DeleteObject(hOldBitmap);
+}
+
 void CTexture::Load(const wstring& filePath)
 {
 	if (m_hBitmap == nullptr)

@@ -16,6 +16,7 @@ public:
 
 	wstring GetAssetPath();
 
+	CTexture* CreateTexture(const wstring& key, int width, int height);
 	CTexture* LoadTexture(const wstring& fileName, const wstring& key);
 	CTexture* FindTexture(const wstring& key);
 };

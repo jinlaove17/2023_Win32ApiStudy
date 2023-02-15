@@ -63,6 +63,10 @@ void CTitleScene::Enter()
 	// 그룹 간 충돌 설정
 	CCollisionManager::GetInstance()->SetCollisionGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionManager::GetInstance()->SetCollisionGroup(GROUP_TYPE::PLAYER_PROJ, GROUP_TYPE::MONSTER);
+
+	// 페이드 효과 설정
+	CCamera::GetInstance()->AddEffect(CAM_EFFECT::FADE_OUT, 2.0f);
+	CCamera::GetInstance()->AddEffect(CAM_EFFECT::FADE_IN, 2.0f);
 }
 
 void CTitleScene::Exit()
