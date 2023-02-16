@@ -9,7 +9,8 @@
 #include "Camera.h"
 
 #include "Player.h"
-#include "Monster.h"
+
+#include "MonsterFactory.h"
 
 CTitleScene::CTitleScene()
 {
@@ -44,29 +45,20 @@ void CTitleScene::Enter()
 
 	// 초기 위치는 해상도의 정중앙이다.
 	CCamera::GetInstance()->SetFinalLookAt(resolution / 2.0f);
-	//CCamera::GetInstance()->SetTarget(object);
+	CCamera::GetInstance()->SetTarget(object);
 
-	float term = (resolution.m_x - 2 * 200.0f) / 4.0f;
+	// 몬스터 생성
+	CMonster* monster = CMonsterFactory::CreateMonster(MONSTER_TYPE::NORMAL, Vec2(resolution.m_x / 2.0f, resolution.m_y / 2.0f - 250.0f));
 
-	for (int i = 0; i < 5; ++i)
-	{
-		CMonster* monster = new CMonster();
-
-		monster->SetName(L"Monster");
-		monster->SetPosition(Vec2(200.0f + (float)term * i, 50.0f));
-		monster->SetScale(Vec2(50.0f, 50.0f));
-		monster->SetCenterPosition(monster->GetPosition());
-
-		AddObject(GROUP_TYPE::MONSTER, monster);
-	}
+	AddObject(GROUP_TYPE::MONSTER, monster);
 
 	// 그룹 간 충돌 설정
 	CCollisionManager::GetInstance()->SetCollisionGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionManager::GetInstance()->SetCollisionGroup(GROUP_TYPE::PLAYER_PROJ, GROUP_TYPE::MONSTER);
 
 	// 페이드 효과 설정
-	CCamera::GetInstance()->AddEffect(CAM_EFFECT::FADE_OUT, 2.0f);
-	CCamera::GetInstance()->AddEffect(CAM_EFFECT::FADE_IN, 2.0f);
+	CCamera::GetInstance()->AddEffect(CAM_EFFECT::FADE_OUT, 1.0f);
+	CCamera::GetInstance()->AddEffect(CAM_EFFECT::FADE_IN, 1.0f);
 }
 
 void CTitleScene::Exit()

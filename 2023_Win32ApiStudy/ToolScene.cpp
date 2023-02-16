@@ -142,6 +142,9 @@ void CToolScene::LoadData()
 
 void CToolScene::Enter()
 {
+	// 메뉴 바 표시
+	CCore::GetInstance()->ShowMenu();
+
 	// 카메라 포커싱 설정
 	Vec2 resolution = CCore::GetInstance()->GetResolution();
 
@@ -173,6 +176,9 @@ void CToolScene::Enter()
 
 void CToolScene::Exit()
 {
+	// 메뉴 바 제거
+	CCore::GetInstance()->HideMenu();
+
 	for (int i = 0; i < (int)GROUP_TYPE::COUNT; ++i)
 	{
 		DeleteGroupObject((GROUP_TYPE)i);

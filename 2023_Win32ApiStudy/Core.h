@@ -28,6 +28,9 @@ private:
 	HBITMAP m_hBitmap;
 	HDC		m_hMemDC;
 
+	// 툴 씬에서 사용하기 위한 메뉴 핸들
+	HMENU   m_hMenu;
+
 public:
 	int Init(HWND hWnd, const SIZE& resolution);
 
@@ -35,5 +38,9 @@ public:
 	const SIZE& GetResolution();
 	HDC GetDC();
 
+	void ShowMenu();
+	void HideMenu();
+
+	void PrepareRender();
 	void AdvanceFrame();
 };

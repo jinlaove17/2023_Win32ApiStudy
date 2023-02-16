@@ -8,6 +8,8 @@
 
 #include "Object.h"
 
+#include "AI.h"
+
 CEventManager::CEventManager() :
 	m_eventQueue(),
 	m_deletedObjectQueue()
@@ -52,6 +54,15 @@ void CEventManager::ChangeScene(SCENE_TYPE scene)
 
 			CUIManager::GetInstance()->SetFocusedUI(nullptr);
 			CSceneManager::GetInstance()->ChangeScene(scene);
+		});
+}
+
+void CEventManager::ChangeAIState(CAI* AI, STATE_TYPE state)
+{
+	m_eventQueue.push(
+		[=]()
+		{
+			AI->ChangeState(state);
 		});
 }
 

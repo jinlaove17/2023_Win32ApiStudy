@@ -6,11 +6,13 @@
 
 #include "Collider.h"
 
+#include "AI.h"
+
+#include "IdleState.h"
+
 CMonster::CMonster() :
-	m_centerPosition(),
-	m_direction(1.0f),
-	m_speed(150.0f),
-	m_maxDistance(40.0f)
+	m_info(),
+	m_AI()
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(40.0f, 40.0f));
@@ -18,46 +20,54 @@ CMonster::CMonster() :
 
 CMonster::~CMonster()
 {
+	if (m_AI != nullptr)
+	{
+		delete m_AI;
+	}
 }
 
-void CMonster::SetDirection(float direction)
+const MonsterInfo& CMonster::GetInfo()
 {
-	m_direction = direction;
+	return m_info;
 }
 
-float CMonster::GetDirection()
+void CMonster::SetHealth(float health)
 {
-	return m_direction;
+	if (health < 0)
+	{
+		health = 0;
+	}
+
+	m_info.m_health = health;
+}
+
+float CMonster::GetHealth()
+{
+	return m_info.m_health;
 }
 
 void CMonster::SetSpeed(float speed)
 {
-	m_speed = speed;
+	m_info.m_speed = speed;
 }
 
 float CMonster::GetSpeed()
 {
-	return m_speed;
+	return m_info.m_speed;
 }
 
-void CMonster::SetMaxDistance(float maxDistance)
+void CMonster::CreateAI()
 {
-	m_maxDistance = maxDistance;
+	if (m_AI == nullptr)
+	{
+		m_AI = new CAI();
+		m_AI->m_owner = this;
+	}
 }
 
-float CMonster::GetMaxDistance()
+CAI* CMonster::GetAI()
 {
-	return m_maxDistance;
-}
-
-void CMonster::SetCenterPosition(const Vec2& centerPosition)
-{
-	m_centerPosition = centerPosition;
-}
-
-const Vec2& CMonster::GetCenterPosition()
-{
-	return m_centerPosition;
+	return m_AI;
 }
 
 void CMonster::OnCollisionEnter(CCollider* collidedCollider)
@@ -80,18 +90,10 @@ void CMonster::OnCollisionExit(CCollider* collidedCollider)
 
 void CMonster::Update()
 {
-	Vec2 position = GetPosition();
+	m_AI->Update();
+}
 
-	// 진행 방향으로 시간 당 m_speed 만큼 이동
-	position.m_x += m_direction * m_speed * DT;
-
-	float dist = abs(m_centerPosition.m_x - position.m_x) - m_maxDistance;
-
-	if (dist > 0.0f)
-	{
-		m_direction = -m_direction;
-		position.m_x += m_direction * dist;
-	}
-
-	SetPosition(position);
+void CMonster::SetInfo(const MonsterInfo& info)
+{
+	m_info = info;
 }

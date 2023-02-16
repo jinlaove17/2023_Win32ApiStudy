@@ -52,6 +52,7 @@ enum class PEN_TYPE
 enum class BRUSH_TYPE
 {
 	HOLLOW,
+	BLACK,
 
 	COUNT
 };
@@ -75,6 +76,24 @@ enum class GROUP_TYPE
 	PLAYER_PROJ,
 	PLAYER,
 	UI,
+
+	COUNT
+};
+
+enum class STATE_TYPE
+{
+	IDLE,
+	TRACE,
+	ATTACK,
+	DEAD,
+
+	COUNT
+};
+
+enum MONSTER_TYPE
+{
+	NORMAL,
+	BOSS,
 
 	COUNT
 };

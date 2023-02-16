@@ -10,5 +10,6 @@ HPEN GDIObject::m_hPens[(int)PEN_TYPE::COUNT] =
 
 HBRUSH GDIObject::m_hBrushes[(int)BRUSH_TYPE::COUNT] =
 {
-	(HBRUSH)GetStockObject(HOLLOW_BRUSH)
+	(HBRUSH)GetStockObject(HOLLOW_BRUSH),
+	(HBRUSH)GetStockObject(BLACK_BRUSH)
 };
