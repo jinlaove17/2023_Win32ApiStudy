@@ -89,6 +89,11 @@ public:
 	{
 	}
 
+	Vec2 operator -()
+	{
+		return Vec2(-m_x, -m_y);
+	}
+
 	Vec2& operator =(const SIZE& size)
 	{
 		m_x = (float)size.cx;
@@ -116,6 +121,14 @@ public:
 		return Vec2(m_x - other.m_x, m_y - other.m_y);
 	}
 
+	Vec2& operator -=(const Vec2& other)
+	{
+		m_x -= other.m_x;
+		m_y -= other.m_y;
+
+		return *this;
+	}
+
 	Vec2 operator *(int i)
 	{
 		return Vec2(i * m_x, i * m_y);
@@ -124,6 +137,14 @@ public:
 	Vec2 operator *(float f)
 	{
 		return Vec2(f * m_x, f * m_y);
+	}
+
+	Vec2& operator *=(float f)
+	{
+		m_x *= f;
+		m_y *= f;
+
+		return *this;
 	}
 
 	Vec2 operator /(float f)

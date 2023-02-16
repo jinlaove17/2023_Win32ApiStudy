@@ -5,6 +5,7 @@
 
 #include "Collider.h"
 #include "Animator.h"
+#include "RigidBody.h"
 
 CObject::CObject() :
 	m_isActive(true),
@@ -16,6 +17,7 @@ CObject::CObject() :
 	m_texture(),
 	m_collider(),
 	m_animator(),
+	m_rigidBody(),
 	m_parent(),
 	m_children()
 {
@@ -31,6 +33,7 @@ CObject::CObject(const CObject& rhs) :
 	m_texture(rhs.m_texture),
 	m_collider(),
 	m_animator(),
+	m_rigidBody(),
 	m_parent(rhs.m_parent),
 	m_children()
 {
@@ -44,6 +47,12 @@ CObject::CObject(const CObject& rhs) :
 	{
 		m_animator = new CAnimator(*rhs.m_animator);
 		m_animator->m_owner = this;
+	}
+
+	if (rhs.m_rigidBody != nullptr)
+	{
+		m_rigidBody = new CRigidBody(*rhs.m_rigidBody);
+		m_rigidBody->m_owner = this;
 	}
 
 	if (!rhs.m_children.empty())
@@ -69,6 +78,12 @@ CObject::~CObject()
 	{
 		delete m_animator;
 		m_animator = nullptr;
+	}
+
+	if (m_rigidBody != nullptr)
+	{
+		delete m_rigidBody;
+		m_rigidBody = nullptr;
 	}
 
 	SafeDelete(m_children);
@@ -172,6 +187,20 @@ CAnimator* CObject::GetAnimator()
 	return m_animator;
 }
 
+void CObject::CreateRigidBody()
+{
+	if (m_rigidBody == nullptr)
+	{
+		m_rigidBody = new CRigidBody();
+		m_rigidBody->m_owner = this;
+	}
+}
+
+CRigidBody* CObject::GetRigidBody()
+{
+	return m_rigidBody;
+}
+
 CObject* CObject::GetParent()
 {
 	return m_parent;
@@ -229,6 +258,11 @@ void CObject::LateUpdate()
 	if (m_animator != nullptr)
 	{
 		m_animator->Update();
+	}
+
+	if (m_rigidBody != nullptr)
+	{
+		m_rigidBody->Update();
 	}
 
 	LateUpdateChildren();

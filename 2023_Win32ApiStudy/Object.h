@@ -3,22 +3,25 @@
 class CTexture;
 class CCollider;
 class CAnimator;
+class CRigidBody;
 
 class CObject
 {
 private:
-	bool			 m_isActive;
-	bool			 m_isDeleted;
-					 
-	wstring			 m_name;
-					 
-	Vec2			 m_position;
-	Vec2			 m_localPosition;
-	Vec2			 m_scale;
-					 
-	CTexture*		 m_texture;
-	CCollider*		 m_collider;
-	CAnimator*		 m_animator;
+	bool		     m_isActive;
+	bool		     m_isDeleted;
+				     
+	wstring		     m_name;
+				     
+	Vec2		     m_position;
+	Vec2		     m_localPosition;
+	Vec2		     m_scale;
+				     
+	CTexture*	     m_texture;
+
+	CCollider*	     m_collider;
+	CAnimator*	     m_animator;
+	CRigidBody*      m_rigidBody;
 
 	CObject*         m_parent;
 	vector<CObject*> m_children;
@@ -56,6 +59,9 @@ public:
 
 	void CreateAnimator();
 	CAnimator* GetAnimator();
+
+	void CreateRigidBody();
+	CRigidBody* GetRigidBody();
 
 	CObject* GetParent();
 
