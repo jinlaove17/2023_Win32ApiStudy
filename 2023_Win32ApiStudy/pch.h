@@ -33,5 +33,5 @@
 using namespace std;
 
 #include "define.h"
-#include "struct.h"
+#include "udt.h"
 #include "func.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-template<typename T>
+template <typename T>
 inline void SafeDelete(vector<T>& v)
 {
 	for (int i = 0; i < v.size(); ++i)
@@ -15,7 +15,7 @@ inline void SafeDelete(vector<T>& v)
 	v.clear();
 }
 
-template<typename T, typename U>
+template <typename T, typename U>
 inline void SafeDelete(unordered_map<T, U>& um)
 {
 	for (auto& p : um)

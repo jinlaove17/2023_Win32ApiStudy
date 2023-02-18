@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "struct.h"
+#include "udt.h"
 
 HPEN GDIObject::m_hPens[(int)PEN_TYPE::COUNT] =
 {
