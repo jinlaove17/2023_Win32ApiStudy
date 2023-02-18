@@ -18,70 +18,6 @@ CUIManager::~CUIManager()
 {
 }
 
-void CUIManager::SetFocusedUI(CUI* ui)
-{
-	// 이미 포커싱 된 UI를 포커싱하려는 경우
-	if (m_focusedUI == ui)
-	{
-		return;
-	}
-
-	// 포커싱 UI 변경
-	m_focusedUI = ui;
-
-	// 포커싱을 해제하는 경우
-	if (m_focusedUI == nullptr)
-	{
-		return;
-	}
-
-	CScene* currentScene = CSceneManager::GetInstance()->GetCurrentScene();
-	vector<CObject*>& uis = const_cast<vector<CObject*>&>(currentScene->GetGroupObject(GROUP_TYPE::UI));
-
-	for (int i = 0; i < uis.size(); ++i)
-	{
-		if (m_focusedUI == uis[i])
-		{
-			swap(uis[i], uis[uis.size() - 1]);
-
-			break;
-		}
-	}
-}
-
-void CUIManager::Update()
-{
-	// 1. 현재 포커싱 된 UI를 확인한다.
-	m_focusedUI = GetFocusedUI();
-
-	// 2. 포커싱 된 UI 내(자식 포함)에서 실제 타겟팅 된 UI를 확인한다.
-	m_targetUI = GetTargetUI(m_focusedUI);
-
-	if (m_targetUI != nullptr)
-	{
-		// 타겟팅 된 UI는 GetTargetUI() 함수에서 이미 커서가 오버 상태인지를 검사했으므로, 곧바로 함수를 호출한다.
-		m_targetUI->OnCursorOver();
-
-		if (KEY_TAP(KEY::LBUTTON))
-		{
-			m_targetUI->SetPressed(true);
-			m_targetUI->OnCursorLeftButtonDown();
-		}
-		else if (KEY_AWAY(KEY::LBUTTON))
-		{
-			m_targetUI->OnCursorLeftButtonUp();
-
-			if (m_targetUI->IsPressed())
-			{
-				m_targetUI->OnCursorLeftButtonClick();
-			}
-
-			// 왼쪽 버튼을 떼면, 눌림 체크를 해제한다.
-			m_targetUI->SetPressed(false);
-		}
-	}
-}
-
 CUI* CUIManager::GetFocusedUI()
 {
 	// 기존에 포커싱 된 UI를 저장하고, 변경되었는지 확인한다.
@@ -163,4 +99,68 @@ CUI* CUIManager::GetTargetUI(CUI* rootUI)
 	}
 
 	return targetUI;
+}
+
+void CUIManager::SetFocusedUI(CUI* ui)
+{
+	// 이미 포커싱 된 UI를 포커싱하려는 경우
+	if (m_focusedUI == ui)
+	{
+		return;
+	}
+
+	// 포커싱 UI 변경
+	m_focusedUI = ui;
+
+	// 포커싱을 해제하는 경우
+	if (m_focusedUI == nullptr)
+	{
+		return;
+	}
+
+	CScene* currentScene = CSceneManager::GetInstance()->GetCurrentScene();
+	vector<CObject*>& uis = const_cast<vector<CObject*>&>(currentScene->GetGroupObject(GROUP_TYPE::UI));
+
+	for (int i = 0; i < uis.size(); ++i)
+	{
+		if (m_focusedUI == uis[i])
+		{
+			swap(uis[i], uis[uis.size() - 1]);
+
+			break;
+		}
+	}
+}
+
+void CUIManager::Update()
+{
+	// 1. 현재 포커싱 된 UI를 확인한다.
+	m_focusedUI = GetFocusedUI();
+
+	// 2. 포커싱 된 UI 내(자식 포함)에서 실제 타겟팅 된 UI를 확인한다.
+	m_targetUI = GetTargetUI(m_focusedUI);
+
+	if (m_targetUI != nullptr)
+	{
+		// 타겟팅 된 UI는 GetTargetUI() 함수에서 이미 커서가 오버 상태인지를 검사했으므로, 곧바로 함수를 호출한다.
+		m_targetUI->OnCursorOver();
+
+		if (KEY_TAP(KEY::LBUTTON))
+		{
+			m_targetUI->SetPressed(true);
+			m_targetUI->OnCursorLeftButtonDown();
+		}
+		else if (KEY_AWAY(KEY::LBUTTON))
+		{
+			m_targetUI->OnCursorLeftButtonUp();
+
+			if (m_targetUI->IsPressed())
+			{
+				m_targetUI->OnCursorLeftButtonClick();
+			}
+
+			// 왼쪽 버튼을 떼면, 눌림 체크를 해제한다.
+			m_targetUI->SetPressed(false);
+		}
+	}
 }

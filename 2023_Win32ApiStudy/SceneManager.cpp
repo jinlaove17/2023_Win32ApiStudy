@@ -21,6 +21,13 @@ CSceneManager::~CSceneManager()
 	}
 }
 
+void CSceneManager::ChangeScene(SCENE_TYPE scene)
+{
+	m_currentScene->Exit();
+	m_currentScene = m_scenes[(int)scene];
+	m_currentScene->Enter();
+}
+
 void CSceneManager::Init()
 {
 	// ¾À »ı¼º
@@ -48,11 +55,4 @@ void CSceneManager::Update()
 void CSceneManager::Render(HDC hDC)
 {
 	m_currentScene->Render(hDC);
-}
-
-void CSceneManager::ChangeScene(SCENE_TYPE scene)
-{
-	m_currentScene->Exit();
-	m_currentScene = m_scenes[(int)scene];
-	m_currentScene->Enter();
 }

@@ -27,15 +27,19 @@ struct KeyInfo
 //   - 동일 프레임 내에서 같은 키에 대해서, 동일한 이벤트를 가져가야 한다.
 // 2. 키 입력 상태 처리
 //    - Tap, Hold, Away
-class CInputManager
+class CInputManager : public CSingleton<CInputManager>
 {
-	SINGLETON(CInputManager);
+	friend class CSingleton;
 
 private:
 	int     m_virtualKey[(int)KEY::COUNT]; // 가상 키 값은 KEY의 순서와 일치해야 한다.
 	KeyInfo m_keyInfo[(int)KEY::COUNT];
 	
 	Vec2    m_cursor;
+
+private:
+	CInputManager();
+	~CInputManager();
 
 public:
 	void Init();

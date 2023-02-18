@@ -2,14 +2,18 @@
 
 class CTexture;
 
-class CAssetManager
+class CAssetManager : public CSingleton<CAssetManager>
 {
-	SINGLETON(CAssetManager);
+	friend class CSingleton;
 
 private:
 	wchar_t							  m_assetPath[255];
 
 	unordered_map<wstring, CTexture*> m_textures;
+
+private:
+	CAssetManager();
+	~CAssetManager();
 
 public:
 	void Init();

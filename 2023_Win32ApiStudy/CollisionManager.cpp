@@ -19,49 +19,6 @@ CCollisionManager::~CCollisionManager()
 {
 }
 
-void CCollisionManager::SetCollisionGroup(GROUP_TYPE group1, GROUP_TYPE group2)
-{
-	// 더 작은 그룹 타입을 행으로, 큰 그룹 타입을 열로 사용한다.
-	UINT row = (UINT)group1;
-	UINT col = (UINT)group2;
-
-	if (row > col)
-	{
-		swap(row, col);
-	}
-
-	col = 1 << col;
-
-	// 이미 체크되어 있는 레이어였다면, 체크를 해제한다.
-	if (m_layer[row] & col)
-	{
-		m_layer[row] &= ~col;
-	}
-	else
-	{
-		m_layer[row] |= col;
-	}
-}
-
-void CCollisionManager::ResetCollisionGroup()
-{
-	memset(m_layer, 0, sizeof(UINT) * (int)GROUP_TYPE::COUNT);
-}
-
-void CCollisionManager::Update()
-{
-	for (UINT row = 0; row < (UINT)GROUP_TYPE::COUNT; ++row)
-	{
-		for (UINT col = row; col < (UINT)GROUP_TYPE::COUNT; ++col)
-		{
-			if (m_layer[row] & (1 << col))
-			{
-				UpdateCollisionGroup((GROUP_TYPE)row, (GROUP_TYPE)col);
-			}
-		}
-	}
-}
-
 void CCollisionManager::UpdateCollisionGroup(GROUP_TYPE group1, GROUP_TYPE group2)
 {
 	CScene* currentScene = CSceneManager::GetInstance()->GetCurrentScene();
@@ -71,7 +28,7 @@ void CCollisionManager::UpdateCollisionGroup(GROUP_TYPE group1, GROUP_TYPE group
 	for (int i = 0; i < group1Objects.size(); ++i)
 	{
 		CCollider* collider1 = group1Objects[i]->GetCollider();
-		
+
 		// 오브젝트1이 충돌체를 보유하지 않은 경우
 		if (collider1 == nullptr)
 		{
@@ -158,4 +115,48 @@ bool CCollisionManager::IsCollided(CCollider* collider1, CCollider* collider2)
 	}
 
 	return false;
+}
+
+
+void CCollisionManager::SetCollisionGroup(GROUP_TYPE group1, GROUP_TYPE group2)
+{
+	// 더 작은 그룹 타입을 행으로, 큰 그룹 타입을 열로 사용한다.
+	UINT row = (UINT)group1;
+	UINT col = (UINT)group2;
+
+	if (row > col)
+	{
+		swap(row, col);
+	}
+
+	col = 1 << col;
+
+	// 이미 체크되어 있는 레이어였다면, 체크를 해제한다.
+	if (m_layer[row] & col)
+	{
+		m_layer[row] &= ~col;
+	}
+	else
+	{
+		m_layer[row] |= col;
+	}
+}
+
+void CCollisionManager::ResetCollisionGroup()
+{
+	memset(m_layer, 0, sizeof(UINT) * (int)GROUP_TYPE::COUNT);
+}
+
+void CCollisionManager::Update()
+{
+	for (UINT row = 0; row < (UINT)GROUP_TYPE::COUNT; ++row)
+	{
+		for (UINT col = row; col < (UINT)GROUP_TYPE::COUNT; ++col)
+		{
+			if (m_layer[row] & (1 << col))
+			{
+				UpdateCollisionGroup((GROUP_TYPE)row, (GROUP_TYPE)col);
+			}
+		}
+	}
 }

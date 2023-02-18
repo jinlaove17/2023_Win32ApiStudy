@@ -3,13 +3,17 @@
 class CObject;
 class CAI;
 
-class CEventManager
+class CEventManager : public CSingleton<CEventManager>
 {
-	SINGLETON(CEventManager)
-
+	friend class CSingleton;
+	
 private:
 	queue<Event>    m_eventQueue;
 	queue<CObject*> m_deletedObjectQueue;
+
+private:
+	CEventManager();
+	~CEventManager();
 
 public:
 	void CreateObject(GROUP_TYPE group, CObject* object);

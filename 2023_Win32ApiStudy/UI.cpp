@@ -142,7 +142,7 @@ void CUI::Render(HDC hDC)
 
 	if (m_isPressed)
 	{
-		GDIObject gdiObject(hDC, PEN_TYPE::RED);
+		CGdiController gdiController(hDC, PEN_TYPE::RED);
 
 		Rectangle(hDC,
 			(int)(position.m_x),

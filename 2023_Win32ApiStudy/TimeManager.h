@@ -1,8 +1,8 @@
 #pragma once
 
-class CTimeManager
+class CTimeManager : public CSingleton<CTimeManager>
 {
-	SINGLETON(CTimeManager)
+	friend class CSingleton;
 
 private:
 	LARGE_INTEGER m_prevCount;
@@ -20,6 +20,10 @@ private:
 
 	// 초당 호출 횟수
 	UINT		  m_fps;
+
+private:
+	CTimeManager();
+	~CTimeManager();
 
 public:
 	void Init();

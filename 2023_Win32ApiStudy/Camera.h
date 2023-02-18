@@ -19,9 +19,9 @@ struct CamEffect
 	float	   m_accTime;  // 이펙트의 누적 시간
 };
 
-class CCamera
+class CCamera : public CSingleton<CCamera>
 {
-	SINGLETON(CCamera);
+	friend class CSingleton;
 
 private:
 	Vec2			 m_lookAt;	    // 현재 프레임에 카메라가 바라보는 위치
@@ -32,6 +32,10 @@ private:
 					 
 	CTexture*		 m_veilTexture; // 페이드 효과를 구현하기 위한 검정색 가림막 텍스처
 	queue<CamEffect> m_effectQueue;	// 추가된 이펙트를 저장하는 큐
+
+private:
+	CCamera();
+	~CCamera();
 
 public:
 	void Init();

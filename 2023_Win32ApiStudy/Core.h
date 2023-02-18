@@ -9,10 +9,9 @@
 // 2. 파일 내 생성
 // 3. 클래스 내 생성
 
-class CCore
+class CCore : public CSingleton<CCore>
 {
-	// 정적 멤버 함수, 인스턴스 없이 호출 가능 하지만 this가 없기 때문에 멤버 변수에 접근할 수 없다.
-	SINGLETON(CCore);
+	friend class CSingleton;
 
 private:
 	// 메인 윈도우 핸들
@@ -30,6 +29,10 @@ private:
 
 	// 툴 씬에서 사용하기 위한 메뉴 핸들
 	HMENU   m_hMenu;
+
+private:
+	CCore();
+	~CCore();
 
 public:
 	int Init(HWND hWnd, const SIZE& resolution);

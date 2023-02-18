@@ -1,9 +1,31 @@
 #pragma once
 
-// RAII를 활용하여 GDI를 세팅하는 객체
-struct GDIObject
+// 싱글톤 패턴을 위한 최상위 객체
+template <typename T>
+class CSingleton
 {
+protected: // 이 객체를 상속 받은 자식 객체에서 부모인 이 클래스의 생성자를 호출해야하므로, 접근 지정자를 protected로 설정하였다.
+	CSingleton()
+	{
+	}
+
+	~CSingleton()
+	{
+	}
+
 public:
+	static T* GetInstance()
+	{
+		static T instance = {};
+
+		return &instance;
+	}
+};
+
+// RAII를 활용하여 GDI를 세팅하는 객체
+class CGdiController
+{
+private:
 	// 자주 사용하는 GDI 객체
 	static HPEN    m_hPens[(int)PEN_TYPE::COUNT];
 	static HBRUSH  m_hBrushes[(int)BRUSH_TYPE::COUNT];
@@ -13,7 +35,7 @@ public:
 	HBRUSH		   m_hOldBrush;
 
 public:
-	GDIObject(HDC hDC, PEN_TYPE penType) :
+	CGdiController(HDC hDC, PEN_TYPE penType) :
 		m_hDC(hDC),
 		m_hOldPen(),
 		m_hOldBrush()
@@ -21,7 +43,7 @@ public:
 		m_hOldPen = (HPEN)SelectObject(hDC, m_hPens[(int)penType]);
 	}
 
-	GDIObject(HDC hDC, BRUSH_TYPE brushType) :
+	CGdiController(HDC hDC, BRUSH_TYPE brushType) :
 		m_hDC(hDC),
 		m_hOldPen(),
 		m_hOldBrush()
@@ -29,7 +51,7 @@ public:
 		m_hOldBrush = (HBRUSH)SelectObject(hDC, m_hBrushes[(int)brushType]);
 	}
 
-	GDIObject(HDC hDC, PEN_TYPE penType, BRUSH_TYPE brushType) :
+	CGdiController(HDC hDC, PEN_TYPE penType, BRUSH_TYPE brushType) :
 		m_hDC(hDC),
 		m_hOldPen(),
 		m_hOldBrush()
@@ -38,7 +60,7 @@ public:
 		m_hOldBrush = (HBRUSH)SelectObject(hDC, m_hBrushes[(int)brushType]);
 	}
 
-	~GDIObject()
+	~CGdiController()
 	{
 		if (m_hOldPen != nullptr)
 		{

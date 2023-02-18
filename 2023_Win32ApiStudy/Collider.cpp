@@ -91,7 +91,7 @@ void CCollider::Update()
 
 void CCollider::Render(HDC hDC)
 {
-	GDIObject gdiObject(hDC, (m_collisionCount > 0) ? PEN_TYPE::RED : PEN_TYPE::GREEN, BRUSH_TYPE::HOLLOW);
+	CGdiController gdiController(hDC, (m_collisionCount > 0) ? PEN_TYPE::RED : PEN_TYPE::GREEN, BRUSH_TYPE::HOLLOW);
 	Vec2 finalPosition = CCamera::GetInstance()->WorldToScreen(GetPosition() + m_offset);
 
 	Rectangle(hDC,
