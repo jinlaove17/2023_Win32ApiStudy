@@ -4,17 +4,28 @@
 #include "TimeManager.h"
 
 CRigidBody::CRigidBody() :
+	m_isUsedGravity(true),
 	m_mass(1.0f),
 	m_force(),
 	m_velocity(),
 	m_maxSpeed(200.0f),
 	m_accel(),
-	m_frictionCoeff(60.0f)
+	m_frictionCoeff(80.0f)
 {
 }
 
 CRigidBody::~CRigidBody()
 {
+}
+
+void CRigidBody::SetGravity(bool useGravity)
+{
+	m_isUsedGravity = useGravity;
+}
+
+bool CRigidBody::IsUsedGravity()
+{
+	return m_isUsedGravity;
 }
 
 void CRigidBody::SetMass(float mass)
@@ -39,6 +50,11 @@ const Vec2& CRigidBody::GetVelocity()
 	return m_velocity;
 }
 
+float CRigidBody::GetSpeed()
+{
+	return m_velocity.Length();
+}
+
 void CRigidBody::SetMaxSpeed(float maxSpeed)
 {
 	m_maxSpeed = maxSpeed;
@@ -61,10 +77,17 @@ void CRigidBody::AddForce(const Vec2& force)
 
 void CRigidBody::Update()
 {
+	float frictionCoeff = m_frictionCoeff;
+
 	if (m_force.Length() > 0.0f)
 	{
 		m_accel = m_force / m_mass;
 		m_velocity += m_accel * DT;
+	}
+	else
+	{
+		// 이번 프레임에 별도의 입력이 없어 힘의 크기가 0인 경우에는, 마찰력을 급증시킨다.
+		frictionCoeff *= 10.0f;
 	}
 
 	// 속도 제한 검사
@@ -82,7 +105,7 @@ void CRigidBody::Update()
 		// 마찰력 적용
 		Vec2 friction = -m_velocity;
 
-		friction = friction.Normalize() * m_frictionCoeff * DT;
+		friction = friction.Normalize() * frictionCoeff * DT;
 
 		// 마찰력이 현재 속도보다 더 큰 경우
 		if (friction.Length() >= speed)

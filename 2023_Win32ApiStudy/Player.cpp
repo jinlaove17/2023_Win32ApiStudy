@@ -10,93 +10,54 @@
 #include "Texture.h"
 #include "Collider.h"
 #include "Animator.h"
-#include "RigidBody.h"
+#include "StateMachine.h"
+
+#include "PlayerStates.h"
 
 #include "Missile.h"
 
-CPlayer::CPlayer()
+CPlayer::CPlayer() :
+	m_direction(-1)
 {
 	CreateCollider();
-	GetCollider()->SetScale(Vec2(60.0f, 65.0f));
+	GetCollider()->SetScale(Vec2(50.0f, 85.0f));
+	GetCollider()->SetOffset(Vec2(0.0f, 20.0f));
 
-	CTexture* texture = CAssetManager::GetInstance()->LoadTexture(L"Link.bmp", L"Player");
+	CTexture* leftTexture = CAssetManager::GetInstance()->LoadTexture(L"Kyo(Left).bmp", L"Player(Left)");
+	CTexture* rightTexture = CAssetManager::GetInstance()->LoadTexture(L"Kyo(Right).bmp", L"Player(Right)");
 
 	CreateAnimator();
-	GetAnimator()->CreateAnimation(L"WALK_UP", texture, Vec2(10, 8), 60, 10, 0.06f);
-	GetAnimator()->CreateAnimation(L"WALK_DOWN", texture, Vec2(10, 8), 40, 10, 0.06f);
-	GetAnimator()->CreateAnimation(L"WALK_LEFT", texture, Vec2(10, 8), 50, 10, 0.06f);
-	GetAnimator()->CreateAnimation(L"WALK_RIGHT", texture, Vec2(10, 8), 70, 10, 0.06f);
-	GetAnimator()->Play(L"WALK_DOWN", true);
+	GetAnimator()->CreateAnimation(L"Idle(Left)", leftTexture, Vec2(6, 4), 0, 5, 0.15f);
+	GetAnimator()->CreateAnimation(L"Idle(Right)", rightTexture, Vec2(6, 4), 0, 5, 0.15f);
+	GetAnimator()->CreateAnimation(L"Jump(Left)", leftTexture, Vec2(6, 4), 6, 5, 0.1f);
+	GetAnimator()->CreateAnimation(L"Jump(Right)", rightTexture, Vec2(6, 4), 6, 5, 0.1f);
+	GetAnimator()->CreateAnimation(L"Walk(Left)", leftTexture, Vec2(6, 4), 12, 6, 0.1f);
+	GetAnimator()->CreateAnimation(L"Walk(Right)", rightTexture, Vec2(6, 4), 12, 6, 0.1f);
 
 	CreateRigidBody();
+
+	// 생성시에는 Idle 상태로 시작한다.
+	CreateStateMachine();
+	GetStateMachine()->SetCurrentState(CPlayerIdleState::GetInstance());
 }
 
 CPlayer::~CPlayer()
 {
 }
 
-void CPlayer::Update()
+void CPlayer::SetDirection(int direction)
 {
-	CAnimator* animator = GetAnimator();
-	CRigidBody* rigidBody = GetRigidBody();
-
-	if (KEY_HOLD(KEY::W))
+	if (direction == 0)
 	{
-		rigidBody->AddForce(Vec2(0.0f, -200.0f));
-		animator->Play(L"WALK_UP", true);
+		return;
 	}
 
-	if (KEY_HOLD(KEY::S))
-	{
-		rigidBody->AddForce(Vec2(0.0f, 200.0f));
-		animator->Play(L"WALK_DOWN", true);
-	}
-
-	if (KEY_HOLD(KEY::A))
-	{
-		rigidBody->AddForce(Vec2(-200.0f, 0.0f));
-		animator->Play(L"WALK_LEFT", true);
-	}
-
-	if (KEY_HOLD(KEY::D))
-	{
-		rigidBody->AddForce(Vec2(200.0f, 0.0f));
-		animator->Play(L"WALK_RIGHT", true);
-	}
-
-	// 최대 속도에 이르기까지의 시간이 오래 걸리므로, 해당 방향으로 일정 속도를 추가하여 최소 속도를 증가시킨다.
-	if (KEY_TAP(KEY::W))
-	{
-		rigidBody->AddVelocity(Vec2(0.0f, -100.0f));
-	}
-
-	if (KEY_TAP(KEY::S))
-	{
-		rigidBody->AddVelocity(Vec2(0.0f, 100.0f));
-	}
-
-	if (KEY_TAP(KEY::A))
-	{
-		rigidBody->AddVelocity(Vec2(-100.0f, 0.0f));
-	}
-
-	if (KEY_TAP(KEY::D))
-	{
-		rigidBody->AddVelocity(Vec2(100.0f, 0.0f));
-	}
-
-	if (KEY_TAP(KEY::SPACE))
-	{
-		CreateMissile();
-	}
+	m_direction = direction;
 }
 
-void CPlayer::Render(HDC hDC)
+int CPlayer::GetDirection()
 {
-	if (CCamera::GetInstance()->IsVisible(this))
-	{
-		RenderComponent(hDC);
-	}
+	return m_direction;
 }
 
 void CPlayer::CreateMissile()
@@ -111,4 +72,12 @@ void CPlayer::CreateMissile()
 	missile->SetDirection(Vec2(0.0f, -1.0f));
 
 	CEventManager::GetInstance()->CreateObject(GROUP_TYPE::PLAYER_PROJ, missile);
+}
+
+void CPlayer::Render(HDC hDC)
+{
+	if (CCamera::GetInstance()->IsVisible(this))
+	{
+		RenderComponent(hDC);
+	}
 }

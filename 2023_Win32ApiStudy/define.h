@@ -70,16 +70,6 @@ enum class GROUP_TYPE
 	COUNT
 };
 
-enum class STATE_TYPE
-{
-	IDLE,
-	TRACE,
-	ATTACK,
-	DEAD,
-
-	COUNT
-};
-
 enum MONSTER_TYPE
 {
 	NORMAL,

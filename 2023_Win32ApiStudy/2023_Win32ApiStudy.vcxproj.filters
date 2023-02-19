@@ -177,6 +177,9 @@
     <ClInclude Include="Component.h">
       <Filter>헤더 파일\06. Component</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerStates.h">
+      <Filter>헤더 파일\07. State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -279,6 +282,9 @@
       <Filter>소스 파일\06. Component</Filter>
     </ClCompile>
     <ClCompile Include="MonsterStates.cpp">
+      <Filter>소스 파일\07. State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStates.cpp">
       <Filter>소스 파일\07. State</Filter>
     </ClCompile>
   </ItemGroup>

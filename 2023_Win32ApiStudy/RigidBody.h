@@ -6,6 +6,8 @@ class CRigidBody : public CComponent
 	friend class CObject;
 
 private:
+	bool	 m_isUsedGravity; // 중력의 영향을 받는지에 대한 여부(기본 값: true)
+
 	float	 m_mass;	      // 질량
 	Vec2	 m_force;	      // 힘(방향, 크기)
 	Vec2	 m_velocity;      // 속도
@@ -18,11 +20,16 @@ private:
 	~CRigidBody();
 
 public:
+	void SetGravity(bool useGravity);
+	bool IsUsedGravity();
+
 	void SetMass(float mass);
 	float GetMass();
 
 	void SetVelocity(const Vec2& velocity); 
 	const Vec2& GetVelocity();
+
+	float GetSpeed();
 
 	void SetMaxSpeed(float maxSpeed);
 	float GetMaxSpeed();
