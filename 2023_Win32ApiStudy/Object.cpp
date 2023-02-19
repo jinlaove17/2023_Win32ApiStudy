@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "Animator.h"
 #include "RigidBody.h"
+#include "StateMachine.h"
 
 CObject::CObject() :
 	m_isActive(true),
@@ -18,6 +19,7 @@ CObject::CObject() :
 	m_collider(),
 	m_animator(),
 	m_rigidBody(),
+	m_stateMachine(),
 	m_parent(),
 	m_children()
 {
@@ -34,6 +36,7 @@ CObject::CObject(const CObject& rhs) :
 	m_collider(),
 	m_animator(),
 	m_rigidBody(),
+	m_stateMachine(),
 	m_parent(rhs.m_parent),
 	m_children()
 {
@@ -53,6 +56,12 @@ CObject::CObject(const CObject& rhs) :
 	{
 		m_rigidBody = new CRigidBody(*rhs.m_rigidBody);
 		m_rigidBody->m_owner = this;
+	}
+
+	if (rhs.m_stateMachine != nullptr)
+	{
+		m_stateMachine = new CStateMachine(*rhs.m_stateMachine);
+		m_stateMachine->m_owner = this;
 	}
 
 	if (!rhs.m_children.empty())
@@ -84,6 +93,12 @@ CObject::~CObject()
 	{
 		delete m_rigidBody;
 		m_rigidBody = nullptr;
+	}
+
+	if (m_stateMachine != nullptr)
+	{
+		delete m_stateMachine;
+		m_stateMachine = nullptr;
 	}
 
 	SafeDelete(m_children);
@@ -201,6 +216,20 @@ CRigidBody* CObject::GetRigidBody()
 	return m_rigidBody;
 }
 
+void CObject::CreateStateMachine()
+{
+	if (m_stateMachine == nullptr)
+	{
+		m_stateMachine = new CStateMachine();
+		m_stateMachine->m_owner = this;
+	}
+}
+
+CStateMachine* CObject::GetStateMachine()
+{
+	return m_stateMachine;
+}
+
 CObject* CObject::GetParent()
 {
 	return m_parent;
@@ -243,9 +272,19 @@ void CObject::UpdateChildren()
 	}
 }
 
+void CObject::Update()
+{
+	if (m_stateMachine != nullptr)
+	{
+		m_stateMachine->Update();
+	}
+
+	UpdateChildren();
+}
+
 void CObject::LateUpdate()
 {
-	if (m_parent)
+	if (m_parent != nullptr)
 	{
 		m_position = m_parent->GetPosition() + m_localPosition;
 	}

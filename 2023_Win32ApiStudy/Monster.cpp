@@ -6,24 +6,23 @@
 
 #include "Collider.h"
 
-#include "AI.h"
+#include "StateMachine.h"
 
-#include "IdleState.h"
+#include "MonsterStates.h"
 
 CMonster::CMonster() :
-	m_info(),
-	m_AI()
+	m_info()
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(40.0f, 40.0f));
+
+	// 생성시에는 Idle 상태로 시작한다.
+	CreateStateMachine();
+	GetStateMachine()->SetCurrentState(CMonsterIdleState::GetInstance());
 }
 
 CMonster::~CMonster()
 {
-	if (m_AI != nullptr)
-	{
-		delete m_AI;
-	}
 }
 
 const MonsterInfo& CMonster::GetInfo()
@@ -56,20 +55,6 @@ float CMonster::GetSpeed()
 	return m_info.m_speed;
 }
 
-void CMonster::CreateAI()
-{
-	if (m_AI == nullptr)
-	{
-		m_AI = new CAI();
-		m_AI->m_owner = this;
-	}
-}
-
-CAI* CMonster::GetAI()
-{
-	return m_AI;
-}
-
 void CMonster::OnCollisionEnter(CCollider* collidedCollider)
 {
 	CObject* collidedObject = collidedCollider->GetOwner();
@@ -86,11 +71,6 @@ void CMonster::OnCollision(CCollider* collidedCollider)
 
 void CMonster::OnCollisionExit(CCollider* collidedCollider)
 {
-}
-
-void CMonster::Update()
-{
-	m_AI->Update();
 }
 
 void CMonster::SetInfo(const MonsterInfo& info)

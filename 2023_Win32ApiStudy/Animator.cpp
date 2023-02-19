@@ -6,16 +6,14 @@
 CAnimator::CAnimator() :
 	m_isLoop(),
 	m_animations(),
-	m_playingAnimation(),
-	m_owner()
+	m_playingAnimation()
 {
 }
 
 CAnimator::CAnimator(const CAnimator& rhs) :
 	m_isLoop(rhs.m_isLoop),
 	m_animations(),
-	m_playingAnimation(),
-	m_owner()
+	m_playingAnimation()
 {
 	m_animations.reserve(rhs.m_animations.size());
 
@@ -33,11 +31,6 @@ CAnimator::CAnimator(const CAnimator& rhs) :
 CAnimator::~CAnimator()
 {
 	SafeDelete(m_animations);
-}
-
-CObject* CAnimator::GetOwner()
-{
-	return m_owner;
 }
 
 void CAnimator::CreateAnimation(const wstring& key, CTexture* texture, const Vec2& count, int startIndex, int frameCount, float duration)

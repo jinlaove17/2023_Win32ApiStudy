@@ -3,16 +3,13 @@
 
 #include "TimeManager.h"
 
-#include "Object.h"
-
 CRigidBody::CRigidBody() :
 	m_mass(1.0f),
 	m_force(),
 	m_velocity(),
 	m_maxSpeed(200.0f),
 	m_accel(),
-	m_frictionCoeff(80.0f),
-	m_owner()
+	m_frictionCoeff(60.0f)
 {
 }
 
@@ -50,11 +47,6 @@ void CRigidBody::SetMaxSpeed(float maxSpeed)
 float CRigidBody::GetMaxSpeed()
 {
 	return m_maxSpeed;
-}
-
-CObject* CRigidBody::GetOwner()
-{
-	return m_owner;
 }
 
 void CRigidBody::AddVelocity(const Vec2& velocity)
@@ -109,12 +101,16 @@ void CRigidBody::Update()
 	m_force = Vec2(0.0f, 0.0f);
 }
 
+void CRigidBody::Render(HDC hDC)
+{
+}
+
 void CRigidBody::MovePosition()
 {
 	// 위치 이동
-	Vec2 position = m_owner->GetPosition();
+	Vec2 position = GetOwner()->GetPosition();
 
 	position += m_velocity * DT;
 
-	m_owner->SetPosition(position);
+	GetOwner()->SetPosition(position);
 }

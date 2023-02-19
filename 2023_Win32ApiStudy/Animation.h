@@ -20,6 +20,7 @@ private:
 	wstring				   m_name;
 
 	bool				   m_isFinished;
+
 	vector<AnimationFrame> m_frames;
 	int					   m_frameIndex;
 	float				   m_accTime;

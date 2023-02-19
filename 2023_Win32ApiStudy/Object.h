@@ -4,6 +4,7 @@ class CTexture;
 class CCollider;
 class CAnimator;
 class CRigidBody;
+class CStateMachine;
 
 class CObject
 {
@@ -22,6 +23,7 @@ private:
 	CCollider*	     m_collider;
 	CAnimator*	     m_animator;
 	CRigidBody*      m_rigidBody;
+	CStateMachine*	 m_stateMachine;
 
 	CObject*         m_parent;
 	vector<CObject*> m_children;
@@ -63,6 +65,9 @@ public:
 	void CreateRigidBody();
 	CRigidBody* GetRigidBody();
 
+	void CreateStateMachine();
+	CStateMachine* GetStateMachine();
+
 	CObject* GetParent();
 
 	void AddChild(CObject* object);
@@ -72,7 +77,7 @@ public:
 	virtual void OnCollision(CCollider* collidedCollider);      // 충돌 중일 시 호출
 	virtual void OnCollisionExit(CCollider* collidedCollider);  // 충돌 종료 시 호출
 
-	virtual void Update() = 0;
+	virtual void Update();
 	virtual void LateUpdate();
 
 	virtual void Render(HDC hDC);

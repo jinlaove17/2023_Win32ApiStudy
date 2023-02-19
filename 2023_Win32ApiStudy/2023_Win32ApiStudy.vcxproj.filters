@@ -49,17 +49,17 @@
     <Filter Include="헤더 파일\06. Component">
       <UniqueIdentifier>{708d4c95-943a-4db2-91b7-096d125d27ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\07. AI">
-      <UniqueIdentifier>{bbbd3727-fd31-41ae-955b-e3145ed7f91a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\07. AI">
-      <UniqueIdentifier>{611a0a7e-de01-4af8-a25d-829e4a7dd07d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\08. Factory">
       <UniqueIdentifier>{94826a9e-d160-45d2-a4d2-f3c8162d1cea}</UniqueIdentifier>
     </Filter>
     <Filter Include="헤더 파일\08. Factory">
       <UniqueIdentifier>{6365a3ca-e3a5-42f5-b6f9-421810ba4529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\07. State">
+      <UniqueIdentifier>{611a0a7e-de01-4af8-a25d-829e4a7dd07d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\07. State">
+      <UniqueIdentifier>{bbbd3727-fd31-41ae-955b-e3145ed7f91a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>헤더 파일\03. Object</Filter>
-    </ClInclude>
-    <ClInclude Include="struct.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>헤더 파일\02. Manager</Filter>
@@ -159,22 +156,25 @@
     <ClInclude Include="ButtonUI.h">
       <Filter>헤더 파일\03. Object</Filter>
     </ClInclude>
-    <ClInclude Include="AI.h">
-      <Filter>헤더 파일\07. AI</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>헤더 파일\07. AI</Filter>
-    </ClInclude>
-    <ClInclude Include="IdleState.h">
-      <Filter>헤더 파일\07. AI</Filter>
-    </ClInclude>
-    <ClInclude Include="TraceState.h">
-      <Filter>헤더 파일\07. AI</Filter>
+      <Filter>헤더 파일\07. State</Filter>
     </ClInclude>
     <ClInclude Include="MonsterFactory.h">
       <Filter>헤더 파일\08. Factory</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
+      <Filter>헤더 파일\06. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="udt.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>헤더 파일\06. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterStates.h">
+      <Filter>헤더 파일\07. State</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
       <Filter>헤더 파일\06. Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -224,9 +224,6 @@
     <ClCompile Include="Collider.cpp">
       <Filter>소스 파일\06. Component</Filter>
     </ClCompile>
-    <ClCompile Include="struct.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\02. Manager</Filter>
     </ClCompile>
@@ -263,23 +260,26 @@
     <ClCompile Include="ButtonUI.cpp">
       <Filter>소스 파일\03. Object</Filter>
     </ClCompile>
-    <ClCompile Include="AI.cpp">
-      <Filter>소스 파일\07. AI</Filter>
-    </ClCompile>
     <ClCompile Include="State.cpp">
-      <Filter>소스 파일\07. AI</Filter>
-    </ClCompile>
-    <ClCompile Include="IdleState.cpp">
-      <Filter>소스 파일\07. AI</Filter>
-    </ClCompile>
-    <ClCompile Include="TraceState.cpp">
-      <Filter>소스 파일\07. AI</Filter>
+      <Filter>소스 파일\07. State</Filter>
     </ClCompile>
     <ClCompile Include="MonsterFactory.cpp">
       <Filter>소스 파일\08. Factory</Filter>
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>소스 파일\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="udt.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>소스 파일\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>소스 파일\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterStates.cpp">
+      <Filter>소스 파일\07. State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

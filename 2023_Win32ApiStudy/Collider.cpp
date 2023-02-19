@@ -5,25 +5,23 @@
 
 #include "Camera.h"
 
-#include "Object.h"
-
 UINT CCollider::m_nextID = 0;
 
 CCollider::CCollider() :
 	m_id(m_nextID++),
-	m_offset(),
+	m_position(),
 	m_scale(),
-	m_collisionCount(),
-	m_owner()
+	m_offset(),
+	m_collisionCount()
 {
 }
 
 CCollider::CCollider(const CCollider& rhs) :
 	m_id(m_nextID++),
-	m_offset(rhs.m_offset),
+	m_position(rhs.m_position),
 	m_scale(rhs.m_scale),
-	m_collisionCount(),
-	m_owner()
+	m_offset(rhs.m_offset),
+	m_collisionCount()
 {
 }
 
@@ -36,19 +34,9 @@ UINT CCollider::GetID()
 	return m_id;
 }
 
-void CCollider::SetOffset(const Vec2& offset)
+const Vec2& CCollider::GetPosition()
 {
-	m_offset = offset;
-}
-
-const Vec2& CCollider::GetOffset()
-{
-	return m_offset;
-}
-
-Vec2 CCollider::GetPosition()
-{
-	return m_owner->GetPosition() + m_offset;
+	return m_position;
 }
 
 void CCollider::SetScale(const Vec2& scale)
@@ -61,38 +49,44 @@ const Vec2& CCollider::GetScale()
 	return m_scale;
 }
 
-CObject* CCollider::GetOwner()
+void CCollider::SetOffset(const Vec2& offset)
 {
-	return m_owner;
+	m_offset = offset;
+}
+
+const Vec2& CCollider::GetOffset()
+{
+	return m_offset;
 }
 
 void CCollider::OnCollisionEnter(CCollider* collidedCollider)
 {
-	m_owner->OnCollisionEnter(collidedCollider);
+	GetOwner()->OnCollisionEnter(collidedCollider);
 	++m_collisionCount;
 }
 
 void CCollider::OnCollision(CCollider* collidedCollider)
 {
-	m_owner->OnCollision(collidedCollider);
+	GetOwner()->OnCollision(collidedCollider);
 }
 
 void CCollider::OnCollisionExit(CCollider* collidedCollider)
 {
 	assert(m_collisionCount >= 1);
 
-	m_owner->OnCollisionExit(collidedCollider);
+	GetOwner()->OnCollisionExit(collidedCollider);
 	--m_collisionCount;
 }
 
 void CCollider::Update()
 {
+	m_position = GetOwner()->GetPosition() + m_offset;
 }
 
 void CCollider::Render(HDC hDC)
 {
 	CGdiController gdiController(hDC, (m_collisionCount > 0) ? PEN_TYPE::RED : PEN_TYPE::GREEN, BRUSH_TYPE::HOLLOW);
-	Vec2 finalPosition = CCamera::GetInstance()->WorldToScreen(GetPosition() + m_offset);
+	Vec2 finalPosition = CCamera::GetInstance()->WorldToScreen(m_position);
 
 	Rectangle(hDC,
 		(int)(finalPosition.m_x - 0.5f * m_scale.m_x),

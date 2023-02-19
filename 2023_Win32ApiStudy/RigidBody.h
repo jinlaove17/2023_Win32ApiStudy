@@ -1,8 +1,7 @@
 #pragma once
+#include "Component.h"
 
-class CObject;
-
-class CRigidBody
+class CRigidBody : public CComponent
 {
 	friend class CObject;
 
@@ -14,12 +13,11 @@ private:
 	Vec2	 m_accel;         // 가속도
 	float    m_frictionCoeff; // 마찰 계수
 
-	CObject* m_owner;
-
-public:
+private:
 	CRigidBody();
 	~CRigidBody();
 
+public:
 	void SetMass(float mass);
 	float GetMass();
 
@@ -29,12 +27,12 @@ public:
 	void SetMaxSpeed(float maxSpeed);
 	float GetMaxSpeed();
 
-	CObject* GetOwner();
-
 	void AddVelocity(const Vec2& velocity); // 속도는 Update 함수에서 계산되지만, 게임 내에서는 별도로 조작하여 자연스럽게 만들 수 있다.
 	void AddForce(const Vec2& force);
 
-	void Update();
-
 	void MovePosition();
+
+	virtual void Update();
+
+	virtual void Render(HDC hDC);
 };

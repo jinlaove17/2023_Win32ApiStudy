@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "MonsterFactory.h"
 
-#include "AI.h"
-
 CMonsterFactory::CMonsterFactory()
 {
 }
@@ -30,10 +28,6 @@ CMonster* CMonsterFactory::CreateMonster(MONSTER_TYPE monsterType, const Vec2& p
 		monster->SetPosition(position);
 		monster->SetScale(Vec2(50.0f, 50.0f));
 		monster->SetInfo(monsterInfo);
-		monster->CreateAI();
-		monster->GetAI()->AddState(STATE_TYPE::IDLE);
-		monster->GetAI()->AddState(STATE_TYPE::TRACE);
-		monster->GetAI()->SetCurrentState(STATE_TYPE::IDLE);
 	}
 		break;
 	case MONSTER_TYPE::BOSS:

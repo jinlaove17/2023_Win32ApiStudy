@@ -1,25 +1,16 @@
 #pragma once
 
-class CAI;
+class CObject;
 
 class CState
 {
-	friend class CAI;
-
-private:
-	STATE_TYPE m_state;
-
-	CAI*	   m_AI;
-
-public:
-	CState(STATE_TYPE state);
+protected:
+	CState();
 	virtual ~CState();
 
-	STATE_TYPE GetType();
-	CAI* GetAI();
+public:
+	virtual void Enter(CObject* object) = 0;
+	virtual void Exit(CObject* object) = 0;
 
-	virtual void Enter() = 0;
-	virtual void Exit() = 0;
-
-	virtual void Update() = 0;
+	virtual void Update(CObject* object) = 0;
 };

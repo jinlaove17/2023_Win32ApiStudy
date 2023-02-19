@@ -8,7 +8,7 @@
 
 #include "Object.h"
 
-#include "AI.h"
+#include "StateMachine.h"
 
 CEventManager::CEventManager() :
 	m_eventQueue(),
@@ -22,6 +22,8 @@ CEventManager::~CEventManager()
 
 void CEventManager::CreateObject(GROUP_TYPE group, CObject* object)
 {
+	assert(object != nullptr);
+
 	m_eventQueue.push(
 		[=]()
 		{
@@ -31,6 +33,8 @@ void CEventManager::CreateObject(GROUP_TYPE group, CObject* object)
 
 void CEventManager::DeleteObject(CObject* object)
 {
+	assert(object != nullptr);
+
 	m_eventQueue.push(
 		[=]()
 		{
@@ -57,12 +61,14 @@ void CEventManager::ChangeScene(SCENE_TYPE scene)
 		});
 }
 
-void CEventManager::ChangeAIState(CAI* AI, STATE_TYPE state)
+void CEventManager::ChangeState(CObject* object, CState* state)
 {
+	assert((object != nullptr) && (state != nullptr));
+
 	m_eventQueue.push(
 		[=]()
 		{
-			AI->ChangeState(state);
+			object->GetStateMachine()->ChangeState(state);
 		});
 }
 

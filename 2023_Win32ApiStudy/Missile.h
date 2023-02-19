@@ -16,5 +16,6 @@ public:
 	const Vec2& GetDirection();
 
 	virtual void Update();
+
 	virtual void Render(HDC hDC);
 };

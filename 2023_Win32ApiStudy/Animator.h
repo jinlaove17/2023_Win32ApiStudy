@@ -1,20 +1,18 @@
 #pragma once
+#include "Component.h"
 
-class CObject;
 class CAnimation;
 class CTexture;
 
-class CAnimator
+class CAnimator : public CComponent
 {
 	friend class CObject;
 
 private:
 	bool								m_isLoop;
+
 	unordered_map<wstring, CAnimation*> m_animations;
 	CAnimation*							m_playingAnimation;
-
-	CObject*							m_owner;
-
 
 private:
 	CAnimator();
@@ -26,8 +24,7 @@ public:
 	CAnimation* FindAnimation(const wstring& key);
 	void Play(const wstring& key, bool isLoop);
 
-	CObject* GetOwner();
+	virtual void Update();
 
-	void Update();
-	void Render(HDC hDC);
+	virtual void Render(HDC hDC);
 };
