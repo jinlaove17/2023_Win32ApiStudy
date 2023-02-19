@@ -21,7 +21,7 @@ CPlayer::CPlayer() :
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(50.0f, 85.0f));
-	GetCollider()->SetOffset(Vec2(0.0f, 20.0f));
+	GetCollider()->SetOffset(Vec2(0.0f, 30.0f));
 
 	CTexture* leftTexture = CAssetManager::GetInstance()->LoadTexture(L"Kyo(Left).bmp", L"Player(Left)");
 	CTexture* rightTexture = CAssetManager::GetInstance()->LoadTexture(L"Kyo(Right).bmp", L"Player(Right)");

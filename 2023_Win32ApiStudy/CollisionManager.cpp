@@ -108,8 +108,8 @@ bool CCollisionManager::IsCollided(CCollider* collider1, CCollider* collider2)
 	Vec2 position2 = collider2->GetPosition();
 	const Vec2& scale2 = collider2->GetScale();
 
-	if (abs(position1.m_x - position2.m_x) < 0.5f * (scale1.m_x + scale2.m_x) &&
-		abs(position1.m_y - position2.m_y) < 0.5f * (scale1.m_y + scale2.m_y))
+	if (abs(position1.m_x - position2.m_x) <= 0.5f * (scale1.m_x + scale2.m_x) &&
+		abs(position1.m_y - position2.m_y) <= 0.5f * (scale1.m_y + scale2.m_y))
 	{
 		return true;
 	}

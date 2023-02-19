@@ -289,11 +289,6 @@ void CObject::LateUpdate()
 		m_position = m_parent->GetPosition() + m_localPosition;
 	}
 
-	if (m_collider != nullptr)
-	{
-		m_collider->Update();
-	}
-
 	if (m_animator != nullptr)
 	{
 		m_animator->Update();
@@ -302,6 +297,11 @@ void CObject::LateUpdate()
 	if (m_rigidBody != nullptr)
 	{
 		m_rigidBody->Update();
+	}
+
+	if (m_collider != nullptr)
+	{
+		m_collider->Update();
 	}
 
 	LateUpdateChildren();

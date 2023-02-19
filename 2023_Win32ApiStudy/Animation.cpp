@@ -95,7 +95,7 @@ void CAnimation::Update()
 		if (m_frameIndex >= m_frames.size())
 		{
 			m_isFinished = true;
-			m_frameIndex = 0;
+			m_frameIndex = m_frames.size() - 1;
 		}
 	}
 }

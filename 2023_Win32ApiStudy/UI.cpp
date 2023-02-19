@@ -104,13 +104,6 @@ void CUI::LateUpdate()
 		SetPosition(parent->GetPosition() + GetLocalPosition());
 	}
 
-	CCollider* collider = GetCollider();
-
-	if (collider != nullptr)
-	{
-		collider->Update();
-	}
-
 	CAnimator* animator = GetAnimator();
 
 	if (animator != nullptr)

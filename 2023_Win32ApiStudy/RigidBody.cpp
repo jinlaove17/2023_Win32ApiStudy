@@ -3,14 +3,18 @@
 
 #include "TimeManager.h"
 
+const Vec2 CRigidBody::m_gravityAccel = { 0.0f, 1000.0f };
+
 CRigidBody::CRigidBody() :
 	m_isUsedGravity(true),
+	m_isLanded(),
 	m_mass(1.0f),
 	m_force(),
 	m_velocity(),
-	m_maxSpeed(200.0f),
+	m_maxVelocity(Vec2(300.0f, 600.0f)),
 	m_accel(),
-	m_frictionCoeff(80.0f)
+	m_frictionCoeff(40.0f),
+	m_airRegistanceCoeff(50.0f)
 {
 }
 
@@ -26,6 +30,21 @@ void CRigidBody::SetGravity(bool useGravity)
 bool CRigidBody::IsUsedGravity()
 {
 	return m_isUsedGravity;
+}
+
+void CRigidBody::SetLanded(bool isLanded)
+{
+	m_isLanded = isLanded;
+
+	if (m_isLanded)
+	{
+		m_velocity.m_y = 0.0f;
+	}
+}
+
+bool CRigidBody::IsLanded()
+{
+	return m_isLanded;
 }
 
 void CRigidBody::SetMass(float mass)
@@ -50,19 +69,44 @@ const Vec2& CRigidBody::GetVelocity()
 	return m_velocity;
 }
 
-float CRigidBody::GetSpeed()
+void CRigidBody::SetMaxVelocity(const Vec2& velocity)
 {
-	return m_velocity.Length();
+	m_maxVelocity = velocity;
 }
 
-void CRigidBody::SetMaxSpeed(float maxSpeed)
+const Vec2& CRigidBody::GetMaxVelocity()
 {
-	m_maxSpeed = maxSpeed;
+	return m_maxVelocity;
 }
 
-float CRigidBody::GetMaxSpeed()
+float CRigidBody::GetSpeedX()
 {
-	return m_maxSpeed;
+	return abs(m_velocity.m_x);
+}
+
+float CRigidBody::GetSpeedY()
+{
+	return abs(m_velocity.m_y);
+}
+
+void CRigidBody::SetFrictionCoeff(float frictionCoeff)
+{
+	m_frictionCoeff = frictionCoeff;
+}
+
+float CRigidBody::GetFrictionCoeff()
+{
+	return m_frictionCoeff;
+}
+
+void CRigidBody::SetAirResistanceCoeff(float airRegistanceCoeff)
+{
+	m_airRegistanceCoeff = airRegistanceCoeff;
+}
+
+float CRigidBody::GetAirResistanceCoeff()
+{
+	return m_airRegistanceCoeff;
 }
 
 void CRigidBody::AddVelocity(const Vec2& velocity)
@@ -77,44 +121,84 @@ void CRigidBody::AddForce(const Vec2& force)
 
 void CRigidBody::Update()
 {
-	float frictionCoeff = m_frictionCoeff;
+	// 가속도 갱신
+	// F = M * A
+	// A = F / m;
+	m_accel = m_force / m_mass;
 
-	if (m_force.Length() > 0.0f)
+	// 중력 가속도 추가
+	if (m_isUsedGravity && !m_isLanded)
 	{
-		m_accel = m_force / m_mass;
-		m_velocity += m_accel * DT;
-	}
-	else
-	{
-		// 이번 프레임에 별도의 입력이 없어 힘의 크기가 0인 경우에는, 마찰력을 급증시킨다.
-		frictionCoeff *= 10.0f;
+		m_accel += m_gravityAccel;
 	}
 
-	// 속도 제한 검사
-	float speed = m_velocity.Length();
+	// 갱신된 가속도만큼 속도 증가
+	m_velocity += m_accel * DT;
 
-	if (speed > m_maxSpeed)
+	// X축 성분 처리
+	float speedX = abs(m_velocity.m_x);
+
+	if (speedX > 0.0f)
 	{
-		m_velocity.Normalize();
-		m_velocity *= m_maxSpeed;
-		speed = m_maxSpeed;
-	}
+		// 이번 프레임에 X축 성분으로 누적된 힘이 없을 경우, 마찰력을 급증시킨다.
+		float frictionCoeff = (abs(m_force.m_x) > 0.0f) ? m_frictionCoeff : 10.0f * m_frictionCoeff;
 
-	if (speed > 0.0f)
-	{
-		// 마찰력 적용
-		Vec2 friction = -m_velocity;
-
-		friction = friction.Normalize() * frictionCoeff * DT;
+		// X축 성분에 대해 마찰력 적용
+		float direction = m_velocity.m_x / speedX;
+		float friction = -direction * frictionCoeff * DT;
 
 		// 마찰력이 현재 속도보다 더 큰 경우
-		if (friction.Length() >= speed)
+		if (friction >= speedX)
 		{
-			m_velocity = Vec2(0.0f, 0.0f);
+			m_velocity.m_x = 0.0f;
 		}
 		else
 		{
-			m_velocity += friction;
+			m_velocity.m_x += friction;
+		}
+
+		// 마찰력을 계산한 이후, X축 속도 성분을 다시 구한다.
+		speedX = abs(m_velocity.m_x);
+
+		float maxSpeedX = abs(m_maxVelocity.m_x);
+
+		// 최대 속도 제한
+		if (speedX > maxSpeedX)
+		{
+			// 현재 속도의 X축 성분을 X축의 길이로 나누고, 최대 속력을 곱한다.
+			m_velocity.m_x = direction * maxSpeedX;
+		}
+	}
+
+	// Y축 성분 처리
+	float speedY = abs(m_velocity.m_y);
+
+	if (speedY > 0.0f)
+	{
+		//// Y축 성분에 대해 공기 저항 적용
+		float direction = m_velocity.m_y / speedY;
+		float airRegistance = -direction * m_airRegistanceCoeff * DT;
+
+		// 공기 저항이 현재 속도보다 더 큰 경우
+		if (airRegistance >= speedY)
+		{
+			m_velocity.m_y = 0.0f;
+		}
+		else
+		{
+			m_velocity.m_y += airRegistance;
+		}
+
+		// 공기 저항을 계산한 이후, Y축 속도 성분을 다시 구한다.
+		speedY = abs(m_velocity.m_y);
+
+		float maxSpeedY = abs(m_maxVelocity.m_y);
+
+		// 최대 속도 제한
+		if (speedY > maxSpeedY)
+		{
+			// 현재 속도의 Y축 성분을 Y축의 길이로 나누고, 최대 속력을 곱한다.
+			m_velocity.m_y = direction * maxSpeedY;
 		}
 	}
 

@@ -180,6 +180,9 @@
     <ClInclude Include="PlayerStates.h">
       <Filter>헤더 파일\07. State</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>헤더 파일\03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -286,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="PlayerStates.cpp">
       <Filter>소스 파일\07. State</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>소스 파일\03. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

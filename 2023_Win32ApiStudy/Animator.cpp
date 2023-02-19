@@ -61,10 +61,12 @@ void CAnimator::Play(const wstring& key, bool isLoop)
 {
 	CAnimation* animation = FindAnimation(key);
 
-	assert(animation != nullptr);
-
-	m_isLoop = isLoop;
-	m_playingAnimation = animation;
+	if ((animation != nullptr) && (m_playingAnimation != animation))
+	{
+		m_isLoop = isLoop;
+		m_playingAnimation = animation;
+		m_playingAnimation->SetFrame(0);
+	}
 }
 
 void CAnimator::Update()
