@@ -63,14 +63,12 @@ CTexture* CAssetManager::LoadTexture(const wstring& fileName, const wstring& key
 
 	if (texture == nullptr)
 	{
-		wstring filePath = m_assetPath;
-
-		filePath += L"Texture\\" + fileName;
+		wstring filePath = L"Texture\\" + fileName;
 
 		texture = new CTexture();
 		texture->SetName(key);
 		texture->SetFilePath(filePath);
-		texture->Load(filePath);
+		texture->Load(m_assetPath + filePath);
 
 		m_textures.emplace(key, texture);
 	}

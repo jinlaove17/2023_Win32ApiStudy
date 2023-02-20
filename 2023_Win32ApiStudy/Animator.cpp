@@ -45,6 +45,15 @@ void CAnimator::CreateAnimation(const wstring& key, CTexture* texture, const Vec
 	}
 }
 
+void CAnimator::LoadAnimation(const wstring& fileName)
+{
+	CAnimation* animation = new CAnimation();
+
+	animation->LoadData(fileName);
+	animation->m_animator = this;
+	m_animations.emplace(animation->GetName(), animation);
+}
+
 CAnimation* CAnimator::FindAnimation(const wstring& key)
 {
 	auto iter = m_animations.find(key);

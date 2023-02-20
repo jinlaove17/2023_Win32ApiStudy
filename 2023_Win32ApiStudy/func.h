@@ -29,3 +29,6 @@ inline void SafeDelete(unordered_map<T, U>& um)
 
 	um.clear();
 }
+
+void WriteString(FILE* file, const wstring& str);
+void ReadString(FILE* file, wstring& str);

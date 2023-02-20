@@ -21,6 +21,7 @@ private:
 
 public:
 	void CreateAnimation(const wstring& key, CTexture* texture, const Vec2& count, int startIndex, int frameCount, float duration);
+	void LoadAnimation(const wstring& fileName);
 	CAnimation* FindAnimation(const wstring& key);
 	void Play(const wstring& key, bool isLoop);
 

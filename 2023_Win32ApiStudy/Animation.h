@@ -29,6 +29,7 @@ private:
 	CTexture*			   m_texture;
 
 private:
+	CAnimation();
 	CAnimation(const wstring& name, CAnimator* animator, CTexture* texture, const Vec2& count, int startIndex, int frameCount, float duration);
 	CAnimation(const CAnimation& rhs);
 
@@ -43,6 +44,10 @@ public:
 
 	void SetFrame(int frameIndex);
 
+	void SaveData(const wstring& fileName);
+	void LoadData(const wstring& fileName);
+
 	void Update();
+
 	void Render(HDC hDC);
 };

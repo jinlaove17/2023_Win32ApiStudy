@@ -2,6 +2,7 @@
 #include "Animation.h"
 
 #include "TimeManager.h"
+#include "AssetManager.h"
 #include "Camera.h"
 
 #include "Object.h"
@@ -9,6 +10,17 @@
 #include "Animator.h"
 
 #include "Texture.h"
+
+CAnimation::CAnimation() :
+	m_name(),
+	m_isFinished(),
+	m_frames(),
+	m_frameIndex(),
+	m_accTime(),
+	m_animator(),
+	m_texture()
+{
+}
 
 CAnimation::CAnimation(const wstring& name, CAnimator* animator, CTexture* texture, const Vec2& count, int startIndex, int frameCount, float duration) :
 	m_name(name),
@@ -78,6 +90,67 @@ void CAnimation::SetFrame(int frameIndex)
 	m_accTime = 0.0f;
 }
 
+void CAnimation::SaveData(const wstring& fileName)
+{
+	wstring filePath = CAssetManager::GetInstance()->GetAssetPath();
+
+	filePath += L"Animation\\" + fileName;
+
+	FILE* file = nullptr;
+
+	_wfopen_s(&file, filePath.c_str(), L"wb");
+
+	assert(file != nullptr);
+
+	// 애니메이션의 이름 쓰기
+	WriteString(file, m_name);
+
+	// 애니메이션 정보 쓰기
+	size_t frameCount = m_frames.size();
+
+	fwrite(&frameCount, sizeof(size_t), 1, file);
+	fwrite(m_frames.data(), sizeof(AnimationFrame), frameCount, file);
+	
+	// 텍스처 정보 쓰기
+	WriteString(file, m_texture->GetFilePath());
+	WriteString(file, m_texture->GetName());
+
+	fclose(file);
+}
+
+void CAnimation::LoadData(const wstring& fileName)
+{
+	wstring filePath = CAssetManager::GetInstance()->GetAssetPath();
+
+	filePath += L"Animation\\" + fileName;
+
+	FILE* file = nullptr;
+
+	_wfopen_s(&file, filePath.c_str(), L"rb");
+
+	assert(file != nullptr);
+
+	// 애니메이션의 이름 읽기
+	ReadString(file, m_name);
+
+	// 애니메이션의 프레임 읽기
+	size_t frameCount = m_frames.size();
+
+	fread(&frameCount, sizeof(size_t), 1, file);
+
+	m_frames.resize(frameCount);
+	fread(m_frames.data(), sizeof(AnimationFrame), frameCount, file);
+
+	// 텍스처 정보 읽기
+	wstring texturePath, textureName;
+
+	ReadString(file, texturePath);
+	ReadString(file, textureName);
+	m_texture = CAssetManager::GetInstance()->LoadTexture(texturePath, textureName);
+
+	fclose(file);
+}
+
 void CAnimation::Update()
 {
 	if (m_isFinished)
@@ -95,7 +168,7 @@ void CAnimation::Update()
 		if (m_frameIndex >= m_frames.size())
 		{
 			m_isFinished = true;
-			m_frameIndex = m_frames.size() - 1;
+			m_frameIndex = (int)m_frames.size() - 1;
 		}
 	}
 }
