@@ -17,5 +17,9 @@ public:
 
 	void CreateMissile();
 
+	virtual void OnCollisionEnter(CCollider* collidedCollider);
+	virtual void OnCollision(CCollider* collidedCollider);
+	virtual void OnCollisionExit(CCollider* collidedCollider);
+
 	virtual void Render(HDC hDC);
 };

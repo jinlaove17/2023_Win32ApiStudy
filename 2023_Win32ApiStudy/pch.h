@@ -32,6 +32,16 @@
 
 using namespace std;
 
+// Sound 관련 헤더 파일(순서 중요)
+#define DIRECTINPUT_VERSION 0x0800
+
+#include <mmsystem.h>
+#include <dsound.h>
+#include <dinput.h>
+
 #include "define.h"
 #include "udt.h"
 #include "func.h"
+
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "dsound.lib")

@@ -7,7 +7,7 @@
 CGround::CGround()
 {
 	CreateCollider();
-	GetCollider()->SetScale(Vec2(290.0f, 90.0f));
+	GetCollider()->SetScale(Vec2(990.0f, 90.0f));
 }
 
 CGround::~CGround()

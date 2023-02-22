@@ -51,12 +51,12 @@ void CTitleScene::Enter()
 	// 지면 생성
 	object = new CGround();
 	object->SetPosition(Vec2(640.0f, 584.0f));
-	object->SetScale(Vec2(300.0f, 100.0f));
+	object->SetScale(Vec2(1000.0f, 100.0f));
 
 	AddObject(GROUP_TYPE::GROUND, object);
 
 	// 몬스터 생성
-	CMonster* monster = CMonsterFactory::CreateMonster(MONSTER_TYPE::NORMAL, Vec2(resolution.m_x / 2.0f, resolution.m_y / 2.0f - 250.0f));
+	CMonster* monster = CMonsterFactory::CreateMonster(MONSTER_TYPE::NORMAL, Vec2(960.0f, 484.0f));
 
 	AddObject(GROUP_TYPE::MONSTER, monster);
 

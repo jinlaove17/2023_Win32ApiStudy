@@ -8,6 +8,8 @@
 #include "Camera.h"
 
 #include "Texture.h"
+#include "Sound.h"
+
 #include "Collider.h"
 #include "Animator.h"
 #include "Animation.h"
@@ -55,6 +57,10 @@ CPlayer::CPlayer() :
 	// 생성시에는 Idle 상태로 시작한다.
 	CreateStateMachine();
 	GetStateMachine()->SetCurrentState(CPlayerIdleState::GetInstance());
+
+	// 효과음 추가
+	CAssetManager::GetInstance()->LoadSound(L"Jump.wav", L"Jump");
+	CAssetManager::GetInstance()->LoadSound(L"Grunt.wav", L"Grunt");
 }
 
 CPlayer::~CPlayer()
@@ -88,6 +94,22 @@ void CPlayer::CreateMissile()
 	missile->SetDirection(Vec2(0.0f, -1.0f));
 
 	CEventManager::GetInstance()->CreateObject(GROUP_TYPE::PLAYER_PROJ, missile);
+}
+
+void CPlayer::OnCollisionEnter(CCollider* collidedCollider)
+{
+	if (collidedCollider->GetOwner()->GetName() == L"Monster")
+	{
+		CAssetManager::GetInstance()->FindSound(L"Grunt")->Play(false);
+	}
+}
+
+void CPlayer::OnCollision(CCollider* collidedCollider)
+{
+}
+
+void CPlayer::OnCollisionExit(CCollider* collidedCollider)
+{
 }
 
 void CPlayer::Render(HDC hDC)

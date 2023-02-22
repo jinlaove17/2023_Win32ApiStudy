@@ -10,9 +10,12 @@
 #include "CollisionManager.h"
 #include "EventManager.h"
 #include "UIManager.h"
+#include "SoundManager.h"
 #include "Camera.h"
 
 #include "Object.h"
+
+#include "Sound.h"
 
 CCore::CCore() :
 	m_hWnd(),
@@ -66,8 +69,12 @@ int CCore::Init(HWND hWnd, const SIZE& resolution)
 	CTimeManager::GetInstance()->Init();
 	CInputManager::GetInstance()->Init();
 	CAssetManager::GetInstance()->Init();
+	CSoundManager::GetInstance()->Init();
 	CCamera::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
+
+	// 배경음 설정
+	CAssetManager::GetInstance()->LoadSound(L"Gateway.wav", L"BGM_1")->PlayToBGM(true);
 
 	return S_OK;
 }

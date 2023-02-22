@@ -25,6 +25,7 @@ CMonster* CMonsterFactory::CreateMonster(MONSTER_TYPE monsterType, const Vec2& p
 		monsterInfo.m_attackDamage = 15.0f;
 
 		monster = new CMonster();
+		monster->SetName(L"Monster");
 		monster->SetPosition(position);
 		monster->SetScale(Vec2(50.0f, 50.0f));
 		monster->SetInfo(monsterInfo);

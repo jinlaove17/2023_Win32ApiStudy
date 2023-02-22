@@ -2,12 +2,15 @@
 #include "PlayerStates.h"
 
 #include "InputManager.h"
+#include "AssetManager.h"
 
 #include "Player.h"
 
 #include "Animator.h"
 #include "RigidBody.h"
 #include "StateMachine.h"
+
+#include "Sound.h"
 
 CPlayerIdleState::CPlayerIdleState()
 {
@@ -77,6 +80,8 @@ void CPlayerJumpState::Enter(CObject* object)
 	}
 
 	rigidBody->AddVelocity(Vec2(0.0f, -300.0f));
+
+	CAssetManager::GetInstance()->FindSound(L"Jump")->Play(false);
 }
 
 void CPlayerJumpState::Exit(CObject* object)

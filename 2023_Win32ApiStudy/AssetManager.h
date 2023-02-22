@@ -1,6 +1,7 @@
 #pragma once
 
 class CTexture;
+class CSound;
 
 class CAssetManager : public CSingleton<CAssetManager>
 {
@@ -10,6 +11,7 @@ private:
 	wchar_t							  m_assetPath[255];
 
 	unordered_map<wstring, CTexture*> m_textures;
+	unordered_map<wstring, CSound*>   m_sounds;
 
 private:
 	CAssetManager();
@@ -23,4 +25,7 @@ public:
 	CTexture* CreateTexture(const wstring& key, int width, int height);
 	CTexture* LoadTexture(const wstring& fileName, const wstring& key);
 	CTexture* FindTexture(const wstring& key);
+
+	CSound* LoadSound(const wstring& fileName, const wstring& key);
+	CSound* FindSound(const wstring& key);
 };

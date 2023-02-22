@@ -2,6 +2,7 @@
 #include "AssetManager.h"
 
 #include "Texture.h"
+#include "Sound.h"
 
 CAssetManager::CAssetManager() :
 	m_assetPath{},
@@ -81,6 +82,37 @@ CTexture* CAssetManager::FindTexture(const wstring& key)
 	auto iter = m_textures.find(key);
 
 	if (iter == m_textures.end())
+	{
+		return nullptr;
+	}
+
+	return iter->second;
+}
+
+CSound* CAssetManager::LoadSound(const wstring& fileName, const wstring& key)
+{
+	CSound* sound = FindSound(key);
+
+	if (sound == nullptr)
+	{
+		wstring filePath = L"Sound\\" + fileName;
+
+		sound = new CSound();
+		sound->SetName(key);
+		sound->SetFilePath(filePath);
+		sound->Load(m_assetPath + filePath);
+
+		m_sounds.emplace(key, sound);
+	}
+
+	return sound;
+}
+
+CSound* CAssetManager::FindSound(const wstring& key)
+{
+	auto iter = m_sounds.find(key);
+
+	if (iter == m_sounds.end())
 	{
 		return nullptr;
 	}
